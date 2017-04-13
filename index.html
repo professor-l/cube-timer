@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="style/style.css">
+        <link rel="shortcut icon" type="image/png" href="favicon.png">
+        <title>Rubik's Cube Timer</title>
+    </head>
+
+    <body id="bodyWhite">
+        <div id="timesDiv">
+        <table id="events">
+            <tr>
+                <td><a id="2x2" class="inactive">2x2</a></td>
+                <td><a id="3x3" class="active">3x3</a></td>
+                <td><a id="4x4" class="inactive">4x4</a></td>
+                <td><a id="5x5" class="inactive">5x5</a></td>
+                <td><a id="6x6" class="inactive">6x6</a></td>
+                <td><a id="7x7" class="inactive">7x7</a></td>
+                <td class="special"><a id="details">Times</a></td>
+            </tr>
+            <tr>
+                <td><a id="OH" class="inactive">OH</a></td>
+                <td><a id="BLD" class="inactive">BLD</a></td>
+                <td><a id="Pyra" class="inactive">Pyra</a></td>
+                <td><a id="Mega" class="inactive">Mega</a></td>
+                <td><a id="Skewb" class="inactive">Skewb</a></td>
+                <td><a id="Other" class="inactive">Other</a></td>
+                <td class="special"><a id="settings">Settings</a></td>
+            </tr>
+        </table>
+            
+        <table id="times">
+            
+        </table>
+        </div>
+        
+        <div id="timerDiv">
+            <p id="scramble"></p>
+            <h1 id="timer"></h1>
+            <table id="avgs">
+                <tr>
+                    <td>Avg of 5:</td>
+                    <td id="ao5">-</td>
+                </tr>
+                
+                <tr>
+                    <td>Avg of 12:</td>
+                    <td id="ao12">-</td>
+                </tr>
+            </table>
+            
+            <table id="stats">
+                <tr>
+                    <td id="sessionMean">Mean: -</td>
+                    <td id="bestTime">Best: -</td>
+                    <td id="ao5small">Average of 5: -</td>
+                    <td id="ao12small">Average of 12: -</td>
+                </tr>
+                
+                <tr>
+                    <td id="sessionAvg">Average: -</td>
+                    <td id="worstTime">Worst: -</td>
+                    <td id="bao5">Best Average of 5: -</td>
+                    <td id="bao12">Best Average of 12: -</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="modal" id="timesModal">
+            <div class="modalContent" id="timesContent">
+                <button class="closeButton" id="closeTimesModal">Close</button>
+                <button class="closeButton" id="clearTimes">Clear Times</button>
+                
+                <table id="timeDetails"></table>
+            </div>
+        </div>
+        
+        <div class="modal" id="settingsModal">
+            <div class="modalContent" id="settingsContent">
+                <button class="closeButton" id="closeSettingsModal">Close</button>
+                
+                <table id="colors">
+                    <tr>
+                        <td><button id="red">Red</button></td>
+                        <td><button id="orange">Orange</button></td>
+                        <td><button id="yellow">Yellow</button></td>
+                        <td><button id="white">White</button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="green">Green</button></td>
+                        <td><button id="blue">Blue</button></td>
+                        <td><button id="purple">Purple</button></td>
+                        <td><button id="black">Black</button></td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="scripts/array.js"></script>
+        <script type="text/javascript" src="scripts/scramble.js"></script>
+        <script type="text/javascript" src="scripts/functionality.js"></script>
+        <script type="text/javascript" src="scripts/ui.js"></script>
+    </body>
+</html>
