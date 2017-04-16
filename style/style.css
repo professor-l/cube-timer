@@ -68,18 +68,20 @@ a:hover {
 }
 
 #timesDiv {
-    width: 30%;
-    height: 95vh;
-    margin-left: 0.5%;
-    overflow: auto;
-    float: left;
-    padding-top: 1%;
-    padding-bottom: 1%;
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    width: 30%;
+    height: 100%;
+    margin-left: 10px;
+    margin-top: 20px;
+    left: 0;
 }
 
+#timesContainer {
+    width: 100%;
+    margin-left: -10px;
+    overflow: scroll;
+    height: calc(100% - 80px);
+}
 #times {
     width: 100%;
     font-size: 14pt;
@@ -90,7 +92,7 @@ a:hover {
     width: 68%;
     height: 100vh;
     margin: 0;
-    overflow: hidden;
+    overflow-y: hidden;
     float: right;
 }
 
