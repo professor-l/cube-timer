@@ -223,7 +223,7 @@ function genScrambleP(len = 10) {
     return final.join(" ");
 }
 
-function genScrambleS(len = 25) {
+function genScrambleS(len = 10) {
     var before;
     var final = [];
     var alter = ["", "'"];
