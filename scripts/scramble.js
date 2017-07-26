@@ -18,15 +18,6 @@ genScrambleM() is for Megaminx.
 
 \*****************************************************/
 
-Array.prototype.selectRandom = function() {
-	return this[Math.floor(Math.random()*this.length)];
-}
-Array.prototype.remove = function(val){
-	for (x in this) {
-		if (this[x] == val) {this.splice(this.indexOf(val), 1)}
-	}
-}
-
 var opposite = new Object;
 opposite["R"] = "L"; opposite["L"] = "R";
 opposite["U"] = "D"; opposite["D"] = "U";
@@ -206,7 +197,6 @@ function genScrambleP(len = 10) {
     }
     
     var tipsToTurn = Math.floor(Math.random()*5);
-    console.log(tipsToTurn);
     var tips = ["r", "u", "b", "l"];
     
     while (tipsToTurn > 0) {
@@ -260,18 +250,6 @@ function genScrambleM(len = 70) {
     return final.join(" ");
 }
 
-function genScrambleEmpty() { return ""; }
+function genScrambleEmpty() { return " "; }
 
-// Rules for craps
-
-
-/*
-if (roll == 2 || roll == 3 || roll == 12) {
-    result = "loss";
-}
-if (roll == 7 || roll == 11) {
-    result = "win";
-}
-
-else ( points() )
-*/
+var currentScramble = "";

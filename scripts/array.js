@@ -9,10 +9,7 @@
 *       myArray.randomize() randomizes order of the myArray and returns it
 *       myArray.unNest() removes all nesting, making a flat, one dimensional array
 *       myArray.count(val) counts occurances of val in myArray
-*
-*
-*                           Statistics Functions:
-*
+*       myArray.inversions() returns the number of inversions of myArray
 *       myArray.mean() returns mean of myArray
 *       myArray.min(), myArray.max() return min, max of myArray
 *       myArray.sum() returns sum of all values of myArray
@@ -29,8 +26,7 @@ Array.prototype.remove = function(val) {
 }
 
 Array.prototype.selectRandom = function(startIndex = 0, endIndex = this.length - 1) {
-    var newArray = this.slice(startIndex, endIndex+1);
-	return newArray[Math.floor(Math.random()*newArray.length)];
+    return this[Math.floor(Math.random()*(endIndex-startIndex + 1))+startIndex];
 }
 
 Array.prototype.mean = function(startIndex = 0, endIndex = this.length - 1) {
@@ -100,18 +96,13 @@ Array.prototype.removeDuplicates = function() {
 }
 
 Array.prototype.randomize = function() {
-    var final = [];
-    while (this.length > 0) {
-        var r = Math.floor(Math.random()*this.length);
-        final.push(this[r]);
-        this.splice(r, 1);
+    for (var i = this.length - 1; i > 0; i--) {
+        var rand = Math.floor(Math.random()*(i+1));
+        var temp = this[rand];
+        this[rand] = this[i];
+        this[i] = temp;
     }
     
-    while (this.length > 0) { this.pop(); }
-    
-    for (var k = 0; k < final.length; k++) {
-        this.push(final[k]);
-    }
     return this;
 }
 
@@ -143,4 +134,29 @@ Array.prototype.count = function(toCount) {
     }
     
     return total;
+}
+
+Array.prototype.inversions = function() {
+    var total = 0;
+    for (var i = 0; i < this.length; i++) {
+        for (var k = i+1; k < this.length; k++) {
+            if (this[i] > this[k]) {
+                total += 1;
+            }
+        }
+    }
+    return total;
+}
+
+// creates array from min to max, inclusive and exclusive respectively
+function range(min, max, ratio=1) {
+    var tr = [];
+    if (min <= max) {
+        var i = min;
+        while (i < max) {
+            tr.push(i);
+            i += ratio;
+        }
+    }
+    return tr;
 }

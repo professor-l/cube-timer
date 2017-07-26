@@ -1,108 +1,303 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="style/style.css">
-        <link rel="shortcut icon" type="image/png" href="favicon.png">
-        <title>Rubik's Cube Timer</title>
-    </head>
 
-    <body id="bodyWhite">
-        <div id="timesDiv">
-        <table id="events">
-            <tr>
-                <td><a id="2x2" class="inactive">2x2</a></td>
-                <td><a id="3x3" class="active">3x3</a></td>
-                <td><a id="4x4" class="inactive">4x4</a></td>
-                <td><a id="5x5" class="inactive">5x5</a></td>
-                <td><a id="6x6" class="inactive">6x6</a></td>
-                <td><a id="7x7" class="inactive">7x7</a></td>
-                <td class="special"><a id="details">Times</a></td>
-            </tr>
-            <tr>
-                <td><a id="OH" class="inactive">OH</a></td>
-                <td><a id="BLD" class="inactive">BLD</a></td>
-                <td><a id="Pyra" class="inactive">Pyra</a></td>
-                <td><a id="Mega" class="inactive">Mega</a></td>
-                <td><a id="Skewb" class="inactive">Skewb</a></td>
-                <td><a id="Other" class="inactive">Other</a></td>
-                <td class="special"><a id="settings">Settings</a></td>
-            </tr>
-        </table>    
-        <div id="timesContainer">
-            <table id="times">
-            
+<head>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <meta charset="UTF-8">
+    <title>Cube Timer</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    
+    <script type="text/javascript" src="scripts/analytics.js"></script>
+</head>
+
+<body>
+    
+    <img id="settingsIcon" src="images/settings_gray.png" width="30" height="30">
+    <img id="infoIcon" src="images/info_gray.png" width="25" height="25">
+    
+    <div id="timeContainer">
+        <div id="tabsDiv">
+            <table id="eventsTable" class="tabs">
+                <tbody id="eventsTableBody">
+                    <tr id="eventsParent">
+                        <td id="2x2">2x2</td>
+                        <td id="3x3" class="active">3x3</td>
+                        <td id="4x4">4x4</td>
+                        <td id="5x5">5x5</td>
+                        <td id="6x6">6x6</td>
+                        <td id="7x7">7x7</td>
+                        <td id="oh">OH</td>
+                        <td id="bld">BLD</td>
+                        <td id="pyra">Pyra</td>
+                        <td id="mega">Mega</td>
+                        <td id="skewb">Skewb</td>
+                        <td id="other">Other</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
+        <div id="scrambleDiv">
+            <span id="scramble"></span>
         </div>
-        
-        <div id="timerDiv">
-            <p id="scramble"></p>
-            <h1 id="timer"></h1>
-            <table id="avgs">
-                <tr>
-                    <td>Avg of 5:</td>
-                    <td id="ao5">-</td>
-                </tr>
-                
-                <tr>
-                    <td>Avg of 12:</td>
-                    <td id="ao12">-</td>
-                </tr>
-            </table>
-            
-            <table id="stats">
-                <tr>
-                    <td id="sessionMean">Mean: -</td>
-                    <td id="bestTime">Best: -</td>
-                    <td id="ao5small">Average of 5: -</td>
-                    <td id="ao12small">Average of 12: -</td>
-                </tr>
-                
-                <tr>
-                    <td id="sessionAvg">Average: -</td>
-                    <td id="worstTime">Worst: -</td>
-                    <td id="bao5">Best Average of 5: -</td>
-                    <td id="bao12">Best Average of 12: -</td>
-                </tr>
-            </table>
+        <div id="timeDiv">
+            <span id="time">0.000</span>
         </div>
         
-        <div class="modal" id="timesModal">
-            <div class="modalContent" id="timesContent">
-                <button class="closeButton" id="closeTimesModal">Close</button>
-                <button class="closeButton" id="clearTimes">Clear Times</button>
-                
-                <table id="timeDetails"></table>
+    </div>
+    
+    <div id="bottomContentContainer">
+        <div id="innerBottomContent">
+            <div id="timesDiv">
+                <div id="innerTimesDiv">
+                    <table id="timesTable">
+                        <tbody id="timesTableBody"></tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        
-        <div class="modal" id="settingsModal">
-            <div class="modalContent" id="settingsContent">
-                <button class="closeButton" id="closeSettingsModal">Close</button>
-                
-                <table id="colors">
-                    <tr>
-                        <td><button id="red">Red</button></td>
-                        <td><button id="orange">Orange</button></td>
-                        <td><button id="yellow">Yellow</button></td>
-                        <td><button id="white">White</button></td>
-                    </tr>
-                    <tr>
-                        <td><button id="green">Green</button></td>
-                        <td><button id="blue">Blue</button></td>
-                        <td><button id="purple">Purple</button></td>
-                        <td><button id="black">Black</button></td>
-                    </tr>
+
+            <div id="statsDiv">
+                <table id="statsTable">
+                    <tbody id="statsTableBody">
+                        <tr id="ao5">
+                            <td class="label">Average of 5:</td>
+                            <td class="value">-</td>
+                        </tr>
+                        <tr id="ao12">
+                            <td class="label">Average of 12:</td>
+                            <td class="value">-</td>
+                        </tr>
+                        
+                        <tr class="gap"></tr>
+                        
+                        <tr id="sessionMean">
+                            <td class="label">Session mean:</td>
+                            <td class="value">-</td>
+                        </tr>
+                        
+                        <tr class="gap"></tr>
+                        
+                        <tr id="best">
+                            <td class="label">Best time:</td>
+                            <td class="value">-</td>
+                        </tr>
+                        <tr id="worst">
+                            <td class="label">Worst time:</td>
+                            <td class="value">-</td>
+                        </tr>
+                        
+                        <tr class="gap"></tr>
+                        
+                        <tr id="bao5">
+                            <td class="label">Best avg of 5:</td>
+                            <td class="value">-</td>
+                        </tr>
+                        <tr id="bao12">
+                            <td class="label">Best avg of 12:</td>
+                            <td class="value">-</td>
+                        </tr>
+                        
+                    </tbody>
                 </table>
-                
             </div>
+
         </div>
-        
-        <script type="text/javascript" src="scripts/array.js"></script>
-        <script type="text/javascript" src="scripts/scramble.js"></script>
-        <script type="text/javascript" src="scripts/functionality.js"></script>
-        <script type="text/javascript" src="scripts/ui.js"></script>
-    </body>
+                    
+    
+    </div>
+    
+    <div class="modalWrapper" id="timeInfoWrapper">
+        <div class="modal" id="timeInfo">
+            <span class="closeModal">X</span>
+            <span id="timeInfoValue">7.74</span>
+            <br>
+            <span id="timeInfoMilliseconds">7743 milliseconds</span>
+            <br><br><br><span id="timeInfoScrambleLabel">Scramble:</span><br><br>
+            <span id="timeInfoScramble">Unknown Scramble</span>
+        </div>
+    </div>
+    
+    <div class="modalWrapper" id="settingsWrapper">
+        <div class="modal" id="settings">
+            <span class="closeModal">X</span>
+            
+            <h1>Timer Settings</h1>
+            <br>
+            
+            <div id="inspectionSettings">
+                
+                <span class="major">Inspection time:</span>
+                <label class="switch" id="inspectionToggle">
+                    <input type="checkbox" id="inspectionTimeInput">
+                    <span class="slider"></span>
+                </label>
+                
+                <input id="inspectionSeconds" type="text" 
+                       placeholder="Length" value="15">
+                <span class="minor">seconds</span>
+            </div><br>
+            
+            
+            
+            <div id="holdDelaySettings">
+                
+                <span class="major">Hold delay:</span>
+                <label class="switch" id="holdDelayToggle">
+                    <input type="checkbox" id="holdDelayInput" checked="true">
+                    <span class="slider"></span>
+                </label>
+                
+                <input id="holdDelaySeconds" type="text"
+                       placeholder="Length" value="0.55">
+                <span class="minor">seconds</span>
+            </div><br>
+            
+            
+            
+            <div id="digitsSettings">
+                
+                <span class="major">Decimal places:</span>
+                
+                <div id="digitsButtonsWrapper">
+                    <button id="digits2" class="digit">2</button>
+                    <button id="digits3" class="digit selected">3</button>
+                </div>
+            
+            </div>
+            
+            <br><br><br>
+            <button id="settingsSave">SAVE</button>
+        </div>
+    </div>
+    
+    <div class="modalWrapper" id="infoWrapper">
+        <div class="modal" id="about">
+            <span class="closeModal">X</span>
+            
+            <div id="infoTabsDiv">
+                <table id="infoTabs" class="tabs">
+                    <tbody>
+                        <tr>
+                            <td id="info1" class="active">How to Use</td>
+                            <td id="info2">About the Developer</td>
+                            <td id="info3">Version History</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            
+            <div id="infoScroll">
+            <div id="innerInfoScroll">
+            <div class="infoContent" id="howTo">
+                <h2>Using the timer</h2>
+                
+                <p>To use the timer, simply hold down the space bar
+                until the time in the middle of the screen turns green.
+                At that point, upon releasing the space bar, the timer
+                will start, and won't stop again until the space bar
+                is pressed agian, at which point it will log your time.
+                </p>
+                
+                <p>In addition to timing your solves and calculating
+                averages and statistics, this timer also generates
+                scrambles for each solve, which can be seen at the
+                top of the screen. You are welcome to use these 
+                scrambles, which are stored along with each time, or
+                hand scramble the cube yourself. </p>
+                
+                <p>The timer supports the storage of multiple sets
+                of times as well. You can select a different event
+                at the top of the screen, which includes most common
+                WCA events as well as an "Other" category. It does not
+                currently support the creation of custom events.</p>
+            </div>
+            
+            <div class="infoContent" id="aboutMe">
+                <h2>Who am I?</h2>
+                
+                <p>I'm Professor L! I'm seventeen years old, and I
+                have about two and half years of computer science
+                experience under my belt. I intend to major in it in
+                college to further my mastery, but in the mean time I'm
+                trying to make the most of my free time by bettering
+                my frontend web development skills. Building sites
+                like this one helps me maintain and hone my prowess
+                in preparation for the future.</p>
+                
+                <p>I also take an interest in music, and you can
+                check out my 
+                    <a href="https://soundcloud.com/professor_l">
+                        Soundcloud</a> 
+                if you want to have a listen to some of my work.
+                My other hobbies include Rubik's Cubing
+                (unsurprisingly), Tetris, and creative writing.
+                Oh, and as tradition dictates, here's a link to my
+                    <a href="https://github.com/Professor-L">
+                    GitHub</a> as well as a link to 
+                    <a href="https://github.com/Professor-L/rubiks-cube-timer">this project</a>
+                speficially.</p>
+                
+                <h2>Contact Me</h2>
+                
+                <p>You can 
+                    <a href="mailto:ProfessorLWebDev@gmail.com">
+                    email me</a>
+                at any point with questions, comments, bug reports,
+                or even just to say hi! The address is 
+                ProfessorLWebDev@gmail.com, and I'll try to get back
+                to you as quickly as I can, though it may be a few day
+                since I'm working two jobs over the summer.
+                </p>
+                
+                <h2>Donate</h2>
+                <p>Beacuse of the amount of time I devote to this
+                project, 
+                    <a href="https://www.paypal.me/ProfessorElle">
+                        donations via PayPal</a> are much appreciated
+                and can be sent to ProfessorLWebDev@gmail.com.
+                If this site recieves substantial support, I'll set
+                up a Patreon page and pay for hosting on a custom
+                domain, but until then GitHub Pages hosting will
+                suffice.</p>
+            </div>
+            
+            <div class="infoContent" id="versionNotes">
+                <h2>Version 0.0.1 (Alpha Release)</h2>
+                <h4>July 26, 2017</h4>
+                <ul>
+                    <li>Scrambles</li>
+                    <li>Time storage</li>
+                    <li>Multiple events</li>
+                    <li>Basic Statistics</li>
+                    <li>Stable UI</li>
+                    <li>Time Deletion</li>
+                    <li>Penalties</li>
+                </ul>
+            </div>
+            </div>
+            </div>
+            
+            
+            
+        </div>
+    </div>
+    
+    <!-- Intended as independent, for widespread use -->
+    <script type="text/javascript" src="scripts/array.js"></script>
+    <script type="text/javascript" src="scripts/scramble.js"></script>
+    
+    <!-- Website- and timer-specific js files -->
+    <script type="text/javascript" src="scripts/settings.js"></script>
+    <script type="text/javascript" src="scripts/timer.js"></script>
+    <script type="text/javascript" src="scripts/times.js"></script>
+    <script type="text/javascript" src="scripts/events.js"></script>
+
+    <!-- 
+        Bringing it all together in the final page semantics 
+        File that handles user input of timer
+    -->
+    <script type="text/javascript" src="scripts/ui.js"></script>
+</body>
+
 </html>
