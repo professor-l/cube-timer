@@ -27,12 +27,17 @@ function onkeydownFunction(e) {
     this.onkeydown = null;
     
     // If the timer is running, stop it
-    if (cubeTimer.isRunning) { stopCubeTimer(); }
+    if (cubeTimer.isRunning && e.keyCode != 32) { stopCubeTimer(); }
     
     // If it's not the space bar or timer is disabled, carry on
     if (e.keyCode != 32 || Settings.timerDisabled) { return true; }
     
+    if (cubeTimer.isRunning) {
+        stopCubeTimer(); heldDown = false;
+    }
+    
     else {
+        heldDown = false;
         timerElement.style.color = red;
         // Begin timeout for 0.55 seconds
         heldDownTimeout = setTimeout(function() {
@@ -51,6 +56,7 @@ document.onkeyup = function(e) {
     // Rebind onkeydown event - works for all events, not just space
     this.onkeydown = onkeydownFunction;
     
+    if (e.keyCode != 32 && justStopped) { justStopped = false; }
     // If it's not the space bar or timer is disabled, carry on
     if (e.keyCode != 32 || Settings.timerDisabled) { return true; }
     
