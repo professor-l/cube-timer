@@ -88,18 +88,18 @@ function changeEvent(changeTo) {
     // Set currentEvent to changeTo
     currentEvent = changeTo;
     
-    // Scramble element above time element
-    var scrambleElement = document.getElementById("scramble");
-    
     // Update font size so scramble doesn't get too large
     updateFontSize();
     
+    // Scramble element above time element
+    var scrambleElement = document.getElementById("scramble");
     // Set currentScramble, put scramble on webpage
     currentScramble = currentEvent.scramble();
     scrambleElement.innerHTML = currentScramble;
     
     // Update average display box
     updateAverageDisplays();
+    timerElement.innerHTML = formatTime(0);
     
     // Clear HTML time list
     var timesElement = document.getElementById("timesTableBody");
