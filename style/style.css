@@ -384,7 +384,7 @@ span.minor {
 }
 
 #inspectionToggle {
-    margin-left: 25px;
+    margin-left: 35px;
     margin-right: 25px;
 }
 
@@ -397,7 +397,7 @@ span.minor {
 
 
 #holdDelayToggle {
-    margin-left: 60px;
+    margin-left: 70px;
     margin-right: 25px;
 }
 
@@ -405,6 +405,10 @@ span.minor {
     width: 44px;
     margin-left: 20px;
     margin-right: 5px;
+}
+
+#hideTimerToggle {
+    margin-left: 13px;
 }
 
 #digitsSettings {
