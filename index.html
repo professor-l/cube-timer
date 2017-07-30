@@ -8,7 +8,7 @@
     <title>Cube Timer</title>
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
     
-    <script type="text/javascript" src="scripts/analytics.js"></script>
+    <!--<script type="text/javascript" src="scripts/analytics.js"></script>-->
 </head>
 
 <body>
@@ -31,6 +31,7 @@
                         <td id="bld">BLD</td>
                         <td id="pyra">Pyra</td>
                         <td id="mega">Mega</td>
+                        <td id="sq1">Sq-1</td>
                         <td id="skewb">Skewb</td>
                         <td id="other">Other</td>
                     </tr>
@@ -156,7 +157,8 @@
                     <input type="checkbox" id="hideTimerInput">
                     <span class="slider"></span>
                 </label>
-            </div><br><br>
+            </div>
+            <br><br>
             
             
             
@@ -269,6 +271,16 @@
             </div>
             
             <div class="infoContent" id="versionNotes">
+                <h2>Version 0.3.0</h2>
+                <h4>July 30, 2017</h4>
+                <ul>
+                    <li>Random-state scrambles, using 
+                        <a href="https://github.com/cubing/jsss">JSSS</a>
+                         (SVG Scramble drawing unsupported)
+                    </li>
+                    <li>Scramble storage in memory changed in case the JSSS API is fixed</li>
+                    <li>Added Square-1</li>
+                </ul>
                 <h2>Version 0.0.2</h2>
                 <h4>July 27, 2017</h4>
                 <ul>
@@ -289,6 +301,7 @@
                     <li>Time deletion</li>
                     <li>Penalties</li>
                 </ul>
+                <h4></h4>
             </div>
             </div>
             </div>
@@ -298,8 +311,14 @@
         </div>
     </div>
     
-    <!-- Intended as independent, for widespread use -->
-    <script type="text/javascript" src="scripts/array.js"></script>
+    <!-- Scramble library, https://github.com/cubing/jsss -->
+    <script type="text/javascript" src="scripts/scramble-lib/scramble_222.js"></script>
+    <script type="text/javascript" src="scripts/scramble-lib/scramble_333.js"></script>
+    <script type="text/javascript" src="scripts/scramble-lib/scramble_NNN.js"></script>
+    <script type="text/javascript" src="scripts/scramble-lib/scramble_minx.js"></script>
+    <script type="text/javascript" src="scripts/scramble-lib/scramble_pyram.js"></script>
+    <script type="text/javascript" src="scripts/scramble-lib/scramble_sq1.js"></script>
+    
     <script type="text/javascript" src="scripts/scramble.js"></script>
     
     <!-- Website- and timer-specific js files -->
@@ -309,10 +328,6 @@
     <script type="text/javascript" src="scripts/events.js"></script>
     <script type="text/javascript" src="scripts/save.js"></script>
 
-    <!-- 
-        Bringing it all together in the final page semantics 
-        File that handles user input of timer
-    -->
     <script type="text/javascript" src="scripts/ui.js"></script>
 </body>
 
