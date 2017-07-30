@@ -40,6 +40,8 @@ function Time(milliseconds, scramble, element) {
         // Return new value of plusTwo
         return this.plusTwo;
     }
+    
+
 }
 
 // Calculate cubing 'average' (mean without best or worst) of n solves
@@ -78,7 +80,7 @@ Array.prototype.average = function(n, startIndex = this.length-1) {
 
 
 
-function addTime(time) {
+function addTime(time, scramble=currentScramble.scramble_string||currentScramble) {
     
     // Add element to time list on webpage
     var el = addTimeElement(time);
@@ -96,7 +98,7 @@ function addTime(time) {
     currentEvent.sessionMean = newSessionMean;
     
     // Create new instance of Time() object
-    var thisTime = new Time(time, currentScramble, el);
+    var thisTime = new Time(time, scramble, el);
     
     // Add new time object to currentEvent times array
     currentEvent.times.push(thisTime);
@@ -118,8 +120,7 @@ function addTime(time) {
     if (time < currentEvent.best) { currentEvent.best = time; }
     
     // Update scramble var and element text
-    currentScramble = currentEvent.scramble();
-    document.getElementById("scramble").innerHTML = currentScramble;
+    updateScramble();
     
     updateAverageDisplays();
 }

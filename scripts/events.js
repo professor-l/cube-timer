@@ -34,11 +34,13 @@ var sevenBySeven = new Event("7x7", genScramble7);
 
 var oneHanded = new Event("oh", genScramble3);
 
-var blindfolded = new Event("bld", genScramble3);
+var blindfolded = new Event("bld", genScramble3b);
 
 var pyraminx = new Event("pyra", genScrambleP);
 
 var megaminx = new Event("mega", genScrambleM);
+
+var square1 = new Event("sq1", genScrambleS1);
 
 var skewb = new Event("skewb", genScrambleS);
 
@@ -48,7 +50,7 @@ var other = new Event("other", genScrambleEmpty);
 
 var events = [twoByTwo, threeByThree, fourByFour, fiveByFive,
              sixBySix, sevenBySeven, oneHanded, blindfolded,
-             pyraminx, megaminx, skewb, other];
+             pyraminx, megaminx, square1, skewb, other];
 
 var currentEvent;
 
@@ -91,11 +93,8 @@ function changeEvent(changeTo) {
     // Update font size so scramble doesn't get too large
     updateFontSize();
     
-    // Scramble element above time element
-    var scrambleElement = document.getElementById("scramble");
-    // Set currentScramble, put scramble on webpage
-    currentScramble = currentEvent.scramble();
-    scrambleElement.innerHTML = currentScramble;
+    // Update scramble element and preview if necessary
+    updateScramble();
     
     // Update average display box
     updateAverageDisplays();

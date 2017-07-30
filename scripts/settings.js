@@ -44,6 +44,8 @@ document.getElementById("settingsIcon").onclick = function() {
     
     var hideTimerBool = document.getElementById("hideTimerInput");
     
+    var scramblePreview = document.getElementById("scramblePreviewInput");
+    
     var twoDigits = document.getElementById("digits2");
     var threeDigits = document.getElementById("digits3");
     
