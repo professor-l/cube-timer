@@ -29,11 +29,54 @@ function genScramble5() {
 }
 
 function genScramble6() {
-    return scramblers["666"].getRandomScramble();
+    var sc = scramblers["666"].getRandomScramble();
+    
+    // Convert to moves
+    var moves = sc.scramble_string.split(" ");
+    
+    // For each move
+    for (var i = 0; i < moves.length; i++) {
+        var m = moves[i];
+        var moveWidth = m[0];
+        var move = m[1];
+        var moveDir = m[2] || "";
+        
+        if (moveWidth == 2) {
+            moves[i] = move + "w" + moveDir;
+        }
+        if (moveWidth == 3) {
+            moves[i] = moveWidth + move + "w" + moveDir;
+        }
+    }
+    
+    
+    sc.scramble_string = moves.join(" ");
+    return sc;
 }
 
 function genScramble7() {
-    return scramblers["777"].getRandomScramble();
+    var sc = scramblers["666"].getRandomScramble();
+    
+    // Convert to moves
+    var moves = sc.scramble_string.split(" ");
+    
+    // For each move
+    for (var i = 0; i < moves.length; i++) {
+        var m = moves[i];
+        var moveWidth = m[0];
+        var move = m[1];
+        var moveDir = m[2] || "";
+        
+        if (moveWidth == 2) {
+            moves[i] = move + "w" + moveDir;
+        }
+        if (moveWidth == 3) {
+            moves[i] = moveWidth + move + "w" + moveDir;
+        }
+    }
+    
+    sc.scramble_string = moves.join(" ");
+    return sc;
 }
 
 function genScrambleM() {
