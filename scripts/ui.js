@@ -196,6 +196,8 @@ function displayInfo(timeObject) {
 // Make settings and info icons blue on hover
 var settingsIcon = document.getElementById("settingsIcon");
 var infoIcon = document.getElementById("infoIcon");
+var importIcon = document.getElementById("importIcon");
+var exportIcon = document.getElementById("exportIcon");
 
 settingsIcon.onmouseenter = function() {
     this.src = "images/settings_blue.png";
@@ -208,6 +210,18 @@ infoIcon.onmouseenter = function() {
 }
 infoIcon.onmouseleave = function() {
     this.src = "images/info_gray.png";
+}
+importIcon.onmouseenter = function() {
+    this.src = "images/upload_blue.png";
+}
+importIcon.onmouseleave = function() {
+    this.src = "images/upload_gray.png";
+}
+exportIcon.onmouseenter = function() {
+    this.src = "images/download_blue.png";
+}
+exportIcon.onmouseleave = function() {
+    this.src = "images/download_gray.png";
 }
 
 
