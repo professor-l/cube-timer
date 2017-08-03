@@ -27,7 +27,8 @@ body {
     color: #444444;
     background-color: #cccccc;
     margin-top: 50px;
-    height: calc(100% - 50px)
+    height: calc(100% - 50px);
+    min-width: 800px;
 }
 
 button:focus {
@@ -77,6 +78,18 @@ a:visited:hover {
     position: absolute;
     top: 13px;
     right: 50px;
+}
+
+#importIcon {
+    position: absolute;
+    top: 15px;
+    right: 100px;
+}
+
+#exportIcon {
+    position: absolute;
+    top: 15px;
+    right: 130px;
 }
 
 img {
