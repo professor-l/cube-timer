@@ -80,7 +80,7 @@ Array.prototype.average = function(n, startIndex = this.length-1) {
 
 
 
-function addTime(time, scramble=currentScramble.scramble_string||currentScramble) {
+function addTime(time, scramble=currentScramble.scramble_string||currentScramble, u=true) {
     
     // Add element to time list on webpage
     var el = addTimeElement(time);
@@ -99,6 +99,17 @@ function addTime(time, scramble=currentScramble.scramble_string||currentScramble
     
     // Create new instance of Time() object
     var thisTime = new Time(time, scramble, el);
+    
+    // If this time wasn't from local storage, add it
+    if (u) {
+        // Add it to local storage if it already exists
+        if (localStorage[currentEvent.name]) {
+            localStorage[currentEvent.name] += "," + encodeTimeObject(thisTime);
+        } 
+
+        // Else, create localStorage object and store it there
+        else { localStorage[currentEvent.name] = encodeTimeObject(thisTime); }
+    }
     
     // Add new time object to currentEvent times array
     currentEvent.times.push(thisTime);
@@ -120,7 +131,7 @@ function addTime(time, scramble=currentScramble.scramble_string||currentScramble
     if (time < currentEvent.best) { currentEvent.best = time; }
     
     // Update scramble var and element text
-    updateScramble();
+    if (u) { updateScramble(); }
     
     updateAverageDisplays();
 }
@@ -243,6 +254,15 @@ function deleteTime(indexOfTime) {
     
     var el = document.getElementById("timeRow" + indexOfTime);
     document.getElementById("timesTableBody").removeChild(el);
+    
+    // Now, remove time in localStorage
+    // Split at time object, remove extra comma
+    localStorage[currentEvent.name] = localStorage[currentEvent.name].split(encodeTimeObject(timeObject)).join("").replace(",,", ",");
+    
+    // If it's "empty", remove object
+    if (localStorage[currentEvent.name] == ",") {
+        localStorage.removeItem(currentEvent.name);
+    }
     
     // Iterate through ever element AFTER deleted one
     var iter = indexOfTime + 1;
@@ -401,7 +421,7 @@ function updateAverageDisplays() {
     // Best and worst times
     var pb = document.getElementById("best").children[1];
     var pw = document.getElementById("worst").children[1];
-    
+
     // Best avg of 5 and 12
     var bao5 = document.getElementById("bao5").children[1];
     var bao12 = document.getElementById("bao12").children[1];
