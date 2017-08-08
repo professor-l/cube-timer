@@ -191,6 +191,9 @@ function importEvent(encodedEvent) {
     
     // For each time
     for (var i = 0; i < times.length; i++) {
+        
+        // Weed out invalid times
+        if (times[i] == "") { continue; }
       
         // Split milliseconds and scramble
         var t = times[i].split(":");
@@ -238,7 +241,7 @@ window.onload = function() {
         
         // If localStorage has this event
         if (localStorage[events[i].name]) {
-            
+          
             // Parse, remove double commas
             localStorage[events[i].name] = localStorage[events[i].name].replace(",,", ",");
           
