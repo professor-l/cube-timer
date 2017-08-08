@@ -191,7 +191,9 @@ function importEvent(encodedEvent) {
     
     // For each time
     for (var i = 0; i < times.length; i++) {
-        
+      
+        // If it's invalid, continue
+        if (times[i] == "") { continue; }
         // Split milliseconds and scramble
         var t = times[i].split(":");
         var ms = t[0];
