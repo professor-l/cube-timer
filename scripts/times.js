@@ -17,10 +17,6 @@ function Time(milliseconds, scramble, element) {
     
     this.togglePenalty = function(fromStorage=false) {
         
-        // Does it affect best or worst
-        var affectsBest = (this.time == currentEvent.best);
-        var affectsWorst = (this.time + 2000 == currentEvent.worst);
-        
         // Value to add or subtract from session mean
         var valueChanged = 2000/currentEvent.timesToAvg;
         
@@ -61,9 +57,7 @@ function Time(milliseconds, scramble, element) {
             currentEvent.sessionMean -= valueChanged;
         }
         
-        if (affectsBest || affectsWorst) {
-            recalculateBestWorst();
-        }
+        recalculateBestWorst();
         
         recalculateAveragesAffectedBy(currentEvent.times.indexOf(this));
         updateAverageDisplays();
