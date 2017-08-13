@@ -184,6 +184,13 @@ function displayInfo(timeObject) {
         
     }
     
+    // Special case if solve is a DNF
+    if ( timeObject.dnf ) {
+        
+        formattedTimeElement.innerHTML = "DNF";
+        formattedTimeElement.style.color = "#e67e22";
+    }
+    
     // Display modal with flex to allow vertical centering
     document.getElementById("timeInfoWrapper").style.display = "flex";
     

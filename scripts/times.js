@@ -4,6 +4,7 @@ function Time(milliseconds, scramble, element) {
     this.time = milliseconds;
     this.formattedTime = formatTime(this.time);
     this.plusTwo = false;
+    this.dnf = false;
     
     this.scramble = scramble;
     
@@ -14,7 +15,17 @@ function Time(milliseconds, scramble, element) {
     this.ao12 = false;
     
     
-    this.togglePenalty = function() {
+    this.togglePenalty = function(fromStorage=false) {
+        
+        // Does it affect best or worst
+        var affectsBest = (this.time == currentEvent.best);
+        var affectsWorst = (this.time + 2000 == currentEvent.worst);
+        
+        // Value to add or subtract from session mean
+        var valueChanged = 2000/currentEvent.times.length;
+        
+        // Get encoded value, for adding exclamation points later
+        var e = encodeTimeObject(this);
         
         // If penalty is currently true, remove it
         if (this.plusTwo) { 
@@ -37,8 +48,66 @@ function Time(milliseconds, scramble, element) {
         this.formattedTime = formatTime(this.time);
         this.element.children[1].innerHTML = this.formattedTime;
         
+        // Update encoded time object in localStorage
+        if (!fromStorage) {
+            localStorage[currentEvent.name] = localStorage[currentEvent.name].replace(e, encodeTimeObject(this));
+        }
+        
+        if (this.plusTwo) {
+            currentEvent.sessionMean += valueChanged;
+        }
+        
+        else {
+            currentEvent.sessionMean -= valueChanged;
+        }
+        
+        if (affectsBest || affectsWorst) {
+            recalculateBestWorst();
+        }
+        
+        recalculateAveragesAffectedBy(currentEvent.times.indexOf(this));
+        updateAverageDisplays();
+        
         // Return new value of plusTwo
         return this.plusTwo;
+    }
+    
+    this.toggleDNF = function(fromStorage=false) {
+        
+        // Get encoded value, for adding exclamation points later
+        var e = encodeTimeObject(this);
+        
+        // If dnf curently true, remove it
+        if (this.dnf) {
+            this.dnf = false;
+            
+            // Remove 'true' from class name
+            this.element.children[3].className = "dnf";
+        }
+        
+        // Else, add dnf
+        else {
+            this.dnf = true;
+            
+            // Add 'true' to class name
+            this.element.children[3].className = "dnf true";
+        }
+        
+        // Update encoded time object in localStorage
+        if (!fromStorage) {
+            localStorage[currentEvent.name] = localStorage[currentEvent.name].replace(e, encodeTimeObject(this));
+        }
+        
+        if (currentEvent.best == this.time ||
+           currentEvent.worst == this.time) {
+            recalculateBestWorst();
+        }
+        
+        recalculateAveragesAffectedBy(currentEvent.times.indexOf(this));
+        updateAverageDisplays();
+        
+        // Return value of dnf
+        return this.dnf;
     }
     
 
@@ -57,25 +126,41 @@ Array.prototype.average = function(n, startIndex = this.length-1) {
     // Support for Time() objects or raw millisecond values
     var min = this[startIndex].time || this[startIndex];
     var max = min;
-    var sum = 0;
+    var dnfs = 0;
+    var sum = [];
     
     // Iterate down through array from startIndex element n times
     for (var i = startIndex; i >= startIndex - (n - 1); i--) {
         
         // var c for consiceness/legibility
         // Support for Time() objects or raw millisecond values
-        var c = this[i].time || this[i];
+        var c = this[i].dnf || this[i].time || this[i];
+        
+        if (c === true) { dnfs++; }
         
         // Check for min and max
-        if (c > max) { max = c; }
-        else if (c < min) { min = c; }
+        if (c > max && Number.isInteger(c)) { max = c; }
+        else if (c < min && Number.isInteger(c)) { min = c; }
         
         // Add value to sum - we'll subtract min and max after
-        sum += c;
+        sum.push(c);
     }
     
-    // Subtract min and max, then divide by n-2
-    return (sum - (min + max)) / (n - 2);
+    // finalSum is integer
+    var finalSum = 0;
+    
+    // If too many dnfs, return dnf
+    if (dnfs >= 2) { return "DNF";}
+    
+    // Add each NUMBER value to finalSum
+    for (var k = 0; k < sum.length; k++) {
+        if (Number.isInteger(sum[k])) {finalSum += sum[k];}
+    }
+    
+    // If one is a dnf, don't subtract max, else do
+    return (dnfs==1) ? (finalSum - min) / (n-2) : (finalSum - (min + max)) / (n - 2);
+    
+    
 }
 
 
@@ -134,6 +219,8 @@ function addTime(time, scramble=currentScramble.scramble_string||currentScramble
     if (u) { updateScramble(); }
     
     updateAverageDisplays();
+    
+    return thisTime;
 }
 
 // Allows adding them with custom index (for event switching)
@@ -177,43 +264,27 @@ function addTimeElement(time, index = currentEvent.times.length) {
         
         var timeObject = currentEvent.times[indexOfTime];
         
-        var affectsBest = (timeObject.time == currentEvent.best);
-        var affectsWorst = (timeObject.time + 2000 > currentEvent.worst);
-        
-        // Value to add or subtract from session mean
-        var valueChanged = 2000/currentEvent.times.length
-        
-        // If penalty was added, add value to session mean
-        if ( timeObject.togglePenalty() ) {
-            currentEvent.sessionMean += valueChanged;
-        }
-        
-        // Else subtract same value from session mean
-        else {
-            currentEvent.sessionMean -= valueChanged;
-        }
-        
-        // If we modified the best or worst time
-        if (affectsBest || affectsWorst) {
-            
-            // Parse through currentEvent again and redefine them
-            currentEvent.best = Infinity;
-            currentEvent.worst = -Infinity;
-            
-            for (var i = 0; i < currentEvent.times.length; i++) {
-                
-                var t = currentEvent.times[i].time;
-            
-                
-                if (t < currentEvent.best) { currentEvent.best = t; }
-                if (t > currentEvent.worst) { currentEvent.worst = t; }
-            }
-        }
-        
-        recalculateAveragesAffectedBy(indexOfTime);
-        
-        updateAverageDisplays();
+        timeObject.togglePenalty();
     }
+    
+    // DNF icon next to each time
+    var dnf = document.createElement("td");
+    dnf.className = "dnf";
+    dnf.innerHTML = "DNF";
+    
+    dnf.onclick = function() {
+        
+        // Index of time in currentEvent.times
+        var label = this.parentElement.firstElementChild;
+        var indexOfTime = parseInt(label.innerHTML) - 1;
+        
+        // Time object in storage
+        var timeObject = currentEvent.times[indexOfTime];
+        
+        timeObject.toggleDNF();
+        
+    }
+    
     
     
     
@@ -234,6 +305,7 @@ function addTimeElement(time, index = currentEvent.times.length) {
     tableRow.appendChild(num);
     tableRow.appendChild(timeEl);
     tableRow.appendChild(penalty);
+    tableRow.appendChild(dnf);
     tableRow.appendChild(del);
     
     // Add row element to table
@@ -309,25 +381,7 @@ function deleteTime(indexOfTime) {
     
     // Finally, if any credentials were deleted, find new ones
     if (best || worst) {
-        var newBest = Infinity;
-        var newWorst = -Infinity;
-        
-        // Loop through currentEvent.times array
-        for (var i = 0; i < currentEvent.times.length; i++) {
-            
-            // If it's less than newBest, redefine newBest
-            if (currentEvent.times[i].time < newBest) {
-                newBest = currentEvent.times[i].time;
-            }
-            
-            // If it's more than newWorst, redefine newWorst
-            if (currentEvent.times[i].time > newWorst) {
-                newWorst = currentEvent.times[i].time;
-            }
-        }
-        
-        currentEvent.best = newBest;
-        currentEvent.worst = newWorst;
+        recalculateBestWorst();
     }
     
     // Reset best averages to recalculate
@@ -405,6 +459,23 @@ function recalculateAveragesAffectedBy(indexOfTime) {
     }
 }
 
+function recalculateBestWorst() {
+    // Parse through currentEvent again and redefine them
+    currentEvent.best = Infinity;
+    currentEvent.worst = -Infinity;
+
+    for (var i = 0; i < currentEvent.times.length; i++) {
+        
+        // Skip it if it's a dnf
+        if (currentEvent.times[i].dnf) { continue; }
+        
+        // Document time value
+        var t = currentEvent.times[i].time;
+
+        if (t < currentEvent.best) { currentEvent.best = t; }
+        if (t > currentEvent.worst) { currentEvent.worst = t; }
+    }
+}
 
 
 function updateAverageDisplays() {

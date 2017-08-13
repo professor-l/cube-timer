@@ -151,7 +151,11 @@ function encodeTimeObject(ObjectToEncode) {
     var timeEncoded = decimalTo64(ObjectToEncode.time);
     var scrambleEncoded = encodeScramble(ObjectToEncode.scramble);
     
-    return timeEncoded + ":" + scrambleEncoded;
+    var extra = "";
+    if (ObjectToEncode.plusTwo) {extra = "!";}
+    if (ObjectToEncode.dnf) {extra += "!!";}
+    
+    return extra + timeEncoded + ":" + scrambleEncoded;
 }
 
 function encodeEventTimes(event) {
@@ -200,8 +204,69 @@ function importEvent(encodedEvent) {
         var ms = t[0];
         var sc = t[1];
         
+        var dnf = false;
+        var plusTwo = false;
+        
+        // Either +2 or DNF or both
+        if (ms[0] == "!") {
+            if (ms[1] == "!") {
+                dnf = true;
+                if (ms[2] == "!") { plusTwo = true; }
+            }
+            else { plusTwo = true; }
+        }
+        
+        // Remove exclamation points from beginning
+        while (ms[0] == "!") { ms = ms.slice(1); }
+        
+        ms = base64ToDecimal(ms);
+        
+        if (plusTwo) { ms -= 2000; }
+        
         // Add time without updating scramble
-        addTime(base64ToDecimal(ms), decodeScramble(sc), false);
+        var timeObject = addTime(ms, decodeScramble(sc), false);
+        
+        if (plusTwo) {
+            var affectsBest = (timeObject.time == currentEvent.best);
+            var affectsWorst = (timeObject.time + 2000 > currentEvent.worst);
+
+            // Value to add or subtract from session mean
+            var valueChanged = 2000/currentEvent.times.length
+
+            // If penalty was added, add value to session mean
+            if ( timeObject.togglePenalty(true) ) {
+                currentEvent.sessionMean += valueChanged;
+            }
+
+            // Else subtract same value from session mean
+            else {
+                currentEvent.sessionMean -= valueChanged;
+            }
+
+            // If we modified the best or worst time
+            if (affectsBest || affectsWorst) {
+
+                recalculateBestWorst();
+            }
+
+            updateAverageDisplays();
+            recalculateAveragesAffectedBy(currentEvent.times.length - 1);
+        }
+        if (dnf) {
+            
+            timeObject.toggleDNF(true);
+            
+            if (currentEvent.best == timeObject.time || 
+                currentEvent.worst == timeObject.time) {
+
+                recalculateBestWorst();
+
+            }
+            
+            recalculateAveragesAffectedBy(currentEvent.times.length - 1);
+            updateAverageDisplays();
+            
+        }
     }
 }
 
