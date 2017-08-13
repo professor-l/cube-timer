@@ -264,6 +264,20 @@ table.tabs td:hover {
     color: #9b59b6;
 }
 
+#timesTable td.dnf {
+    color: #999999;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#timesTable td.dnf:hover {
+    color: #e67e22;
+}
+
+#timesTable td.dnf.true {
+    color: #e67e22;
+}
+
 #timesTable td.delete {
     font-weight: 500;
     color: #c0392b;
