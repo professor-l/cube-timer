@@ -4,6 +4,7 @@ function Event(name, scrambleFunction) {
     this.name = name;
     
     this.times = [];
+    this.timesToAvg = 0;
     
     this.scramble = scrambleFunction;
     

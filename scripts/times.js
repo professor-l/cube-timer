@@ -22,7 +22,7 @@ function Time(milliseconds, scramble, element) {
         var affectsWorst = (this.time + 2000 == currentEvent.worst);
         
         // Value to add or subtract from session mean
-        var valueChanged = 2000/currentEvent.times.length;
+        var valueChanged = 2000/currentEvent.timesToAvg;
         
         // Get encoded value, for adding exclamation points later
         var e = encodeTimeObject(this);
@@ -83,6 +83,15 @@ function Time(milliseconds, scramble, element) {
             
             // Remove 'true' from class name
             this.element.children[3].className = "dnf";
+            
+            // Multiply session mean
+            currentEvent.sessionMean *= currentEvent.timesToAvg;
+            // Add one to times to avg
+            currentEvent.timesToAvg += 1;
+            // Add time to mean
+            currentEvent.sessionMean += this.time;
+            // Re-divide mean
+            currentEvent.sessionMean /= currentEvent.timesToAvg;
         }
         
         // Else, add dnf
@@ -91,6 +100,15 @@ function Time(milliseconds, scramble, element) {
             
             // Add 'true' to class name
             this.element.children[3].className = "dnf true";
+            
+            // Divide session mean
+            currentEvent.sessionMean *= currentEvent.timesToAvg;
+            // Subtract one from times to avg
+            currentEvent.timesToAvg -= 1;
+            // Subtract time from mean
+            currentEvent.sessionMean -= this.time;
+            // Re-divide mean
+            currentEvent.sessionMean /= currentEvent.timesToAvg;
         }
         
         // Update encoded time object in localStorage
@@ -173,11 +191,11 @@ function addTime(time, scramble=currentScramble.scramble_string||currentScramble
     // Recalculate average by...
     var newSessionMean = currentEvent.sessionMean;
     // Multiply average by length of times array to get sum
-    newSessionMean *= currentEvent.times.length;
+    newSessionMean *= currentEvent.timesToAvg;
     // Add new time to sum to get new sum
     newSessionMean += time;
     // Divide new sum by (length + 1) to get new average
-    newSessionMean /= ( currentEvent.times.length + 1 );
+    newSessionMean /= ( currentEvent.timesToAvg + 1 );
     
     // Update currentEvent.sessionMean to newly calculated
     currentEvent.sessionMean = newSessionMean;
@@ -187,7 +205,7 @@ function addTime(time, scramble=currentScramble.scramble_string||currentScramble
     
     // If this time wasn't from local storage, add it
     if (u) {
-        // Add it to local storage if it already exists
+        // Add event to local storage if it already exists
         if (localStorage[currentEvent.name]) {
             localStorage[currentEvent.name] += "," + encodeTimeObject(thisTime);
         } 
@@ -198,6 +216,8 @@ function addTime(time, scramble=currentScramble.scramble_string||currentScramble
     
     // Add new time object to currentEvent times array
     currentEvent.times.push(thisTime);
+    currentEvent.timesToAvg += 1;
+    
     thisTime.ao5 = currentEvent.times.average(5);
     thisTime.ao12 = currentEvent.times.average(12);
     
@@ -353,11 +373,11 @@ function deleteTime(indexOfTime) {
     
     // Recalculate session mean
     // Multiply mean by length to get sum
-    var sum = currentEvent.sessionMean * currentEvent.times.length;
+    var sum = currentEvent.sessionMean * currentEvent.timesToAvg;
     // Subtract time to delete from sum
     sum -= timeObject.time;
-    // Divide sum by new times.length
-    currentEvent.sessionMean = sum / (currentEvent.times.length - 1) || 0;
+    // Divide sum by new times to avg
+    currentEvent.sessionMean = sum / (currentEvent.timesToAvg - 1) || 0;
     
     // Check if best, worst, or best ao5/12 were just deleted
     var best = false; var worst = false;
@@ -375,6 +395,7 @@ function deleteTime(indexOfTime) {
     // Third step is to remove the actual Time() object
     // from currentEvent.times array
     currentEvent.times.splice(indexOfTime, 1);
+    currentEvent.timesToAvg -= 1;
     
     // Fourth step is to recalculate averages and best/worst
     recalculateAveragesAffectedBy(indexOfTime);
