@@ -116,8 +116,8 @@ function Time(milliseconds, scramble, element) {
             localStorage[currentEvent.name] = localStorage[currentEvent.name].replace(e, encodeTimeObject(this));
         }
         
-        if (currentEvent.best == this.time ||
-           currentEvent.worst == this.time) {
+        if (currentEvent.best > this.time ||
+           currentEvent.worst < this.time) {
             recalculateBestWorst();
         }
         
