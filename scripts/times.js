@@ -116,10 +116,7 @@ function Time(milliseconds, scramble, element) {
             localStorage[currentEvent.name] = localStorage[currentEvent.name].replace(e, encodeTimeObject(this));
         }
         
-        if (currentEvent.best > this.time ||
-           currentEvent.worst < this.time) {
-            recalculateBestWorst();
-        }
+        recalculateBestWorst();
         
         recalculateAveragesAffectedBy(currentEvent.times.indexOf(this));
         updateAverageDisplays();
@@ -487,14 +484,13 @@ function recalculateBestWorst() {
 
     for (var i = 0; i < currentEvent.times.length; i++) {
         
-        // Skip it if it's a dnf
-        if (currentEvent.times[i].dnf) { continue; }
+        var dnf = currentEvent.times[i].dnf;
         
         // Document time value
         var t = currentEvent.times[i].time;
 
-        if (t < currentEvent.best) { currentEvent.best = t; }
-        if (t > currentEvent.worst) { currentEvent.worst = t; }
+        if (t < currentEvent.best && !dnf) { currentEvent.best = t; }
+        if (t > currentEvent.worst && !dnf) { currentEvent.worst = t; }
     }
 }
 
