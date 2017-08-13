@@ -15,7 +15,7 @@ function Time(milliseconds, scramble, element) {
     this.ao12 = false;
     
     
-    this.togglePenalty = function(fromStorage=false) {
+    this.togglePenalty = function(fromStorage=false) { 
         
         // Value to add or subtract from session mean
         var valueChanged = 2000/currentEvent.timesToAvg;
@@ -102,7 +102,7 @@ function Time(milliseconds, scramble, element) {
             // Subtract time from mean
             currentEvent.sessionMean -= this.time;
             // Re-divide mean
-            currentEvent.sessionMean /= currentEvent.timesToAvg;
+            currentEvent.sessionMean = currentEvent.sessionMean / currentEvent.timesToAvg || 0;
         }
         
         // Update encoded time object in localStorage
