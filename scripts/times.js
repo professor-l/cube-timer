@@ -126,6 +126,14 @@ function Time(milliseconds, scramble, element) {
 // Works with array of times (milliseconds) or Time() objects
 Array.prototype.average = function(n, startIndex = this.length-1) {
     
+    // If event is a mo3 event, do mo3 instead of ao5
+    if (n == 5 && (currentEvent == sixBySix ||
+        currentEvent == sevenBySeven ||
+        currentEvent == blindfolded)) {
+        
+        return this.mo3(startIndex);
+    }
+    
     // If there aren't enough elements for ao5/12 between 
     // startIndex and first element, or if it's trying
     // to start on non-existent index, return false
@@ -170,6 +178,26 @@ Array.prototype.average = function(n, startIndex = this.length-1) {
     return (dnfs==1) ? (finalSum - min) / (n-2) : (finalSum - (min + max)) / (n - 2);
     
     
+}
+
+Array.prototype.mo3 = function(startIndex = this.length - 1) {
+    
+    // If it won't work it won't work
+    if (startIndex - 2 < 0 || startIndex >= this.length) { return false; }
+    
+    var sum = 0;
+    
+    for (var i = startIndex; i >= startIndex - 2; i--) {
+        
+        var c = this[i].dnf || this[i].time || this[i];
+        
+        if (c === true) { return "DNF"; }
+        
+        else { sum += c; }
+        
+    }
+    
+    return sum/3;
 }
 
 
@@ -223,8 +251,8 @@ function addTime(time, scramble=currentScramble.scramble_string||currentScramble
     
     
     // If time is new best or worst, take note
-    if (time > currentEvent.worst) { currentEvent.worst = time; }
-    if (time < currentEvent.best) { currentEvent.best = time; }
+    if (time > currentEvent.worst.time) { currentEvent.worst = thisTime; }
+    if (time < currentEvent.best.time) { currentEvent.best = thisTime; }
     
     // Update scramble var and element text
     if (u) { updateScramble(); }
@@ -373,11 +401,11 @@ function deleteTime(indexOfTime) {
     // Check if best, worst, or best ao5/12 were just deleted
     var best = false; var worst = false;
     
-    if (timeObject.time == currentEvent.best) {
+    if (timeObject == currentEvent.best) {
         best = true;
     }
     
-    if (timeObject.time == currentEvent.worst) {
+    if (timeObject == currentEvent.worst) {
         worst = true;
     }
 
@@ -473,18 +501,23 @@ function recalculateAveragesAffectedBy(indexOfTime) {
 
 function recalculateBestWorst() {
     // Parse through currentEvent again and redefine them
-    currentEvent.best = Infinity;
-    currentEvent.worst = -Infinity;
+    currentEvent.best = currentEvent.times[0] || new Time(Infinity);
+    currentEvent.worst = currentEvent.times[0] || new Time(-Infinity);
 
     for (var i = 0; i < currentEvent.times.length; i++) {
         
         var dnf = currentEvent.times[i].dnf;
         
         // Document time value
-        var t = currentEvent.times[i].time;
+        var t = currentEvent.times[i];
 
-        if (t < currentEvent.best && !dnf) { currentEvent.best = t; }
-        if (t > currentEvent.worst && !dnf) { currentEvent.worst = t; }
+        if (t.time < currentEvent.best.time && !dnf) {
+            currentEvent.best = t; 
+        }
+        
+        else if (t.time > currentEvent.worst.time && !dnf) { 
+            currentEvent.worst = t; 
+        }
     }
 }
 
@@ -514,8 +547,8 @@ function updateAverageDisplays() {
     mean.innerHTML = formatTime(currentEvent.sessionMean) || "-";
     if (currentEvent.sessionMean == 0) { mean.innerHTML = "-"; }
     
-    pb.innerHTML = formatTime(currentEvent.best) || "-";
-    pw.innerHTML = formatTime(currentEvent.worst) || "-";
+    pb.innerHTML = formatTime(currentEvent.best.time) || "-";
+    pw.innerHTML = formatTime(currentEvent.worst.time) || "-";
     
     bao5.innerHTML = formatTime(currentEvent.bestAvg5) || "-";
     bao12.innerHTML = formatTime(currentEvent.bestAvg12) || "-";

@@ -10,8 +10,8 @@ function Event(name, scrambleFunction) {
     
     this.element = document.getElementById(name);
     
-    this.best = Infinity;
-    this.worst = -Infinity;
+    this.best = new Time(Infinity);
+    this.worst = new Time(-Infinity);
     
     this.bestAvg5 = Infinity;
     this.bestAvg12 = Infinity;
@@ -111,6 +111,22 @@ function changeEvent(changeTo) {
     // Add back new times to HTML time list
     for (var i = 0; i < currentEvent.times.length; i++) {
         addTimeElement(currentEvent.times[i].time, i);
+    }
+    
+    var a = document.getElementById("ao5").children[0];
+    var b = document.getElementById("bao5").children[0];
+    
+    
+    if (changeTo == sixBySix || 
+        changeTo == sevenBySeven ||
+        changeTo == blindfolded) {
+        a.innerHTML = "Mean of 3:";
+        b.innerHTML = "Best mean of 3:";
+    }
+    
+    else {
+        a.innerHTML = "Average of 5:"
+        b.innerHTML = "Best avg of 5:";
     }
 }
 

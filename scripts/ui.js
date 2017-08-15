@@ -156,6 +156,18 @@ function stopCubeTimer() {
     addTime(cubeTimer.currentTime());
 }
 
+document.getElementById("best").children[1].onclick = function() {
+    if (this.innerHTML != "-") {
+        displayInfo(currentEvent.best);
+    }
+}
+
+document.getElementById("worst").children[1].onclick = function() {
+    if (this.innerHTML != "-") {
+        displayInfo(currentEvent.worst);
+    }
+}
+
 
 
 // Define displayInfo function that displays #timeInfo modal
@@ -195,6 +207,161 @@ function displayInfo(timeObject) {
     document.getElementById("timeInfoWrapper").style.display = "flex";
     
     Settings.timerDisabled = true;
+    
+}
+
+
+
+function displayAverage(indexOfTime, size, omitBW=false) {
+    
+    // Get index of the time whose avg we're displaying
+    var timeObject = currentEvent.times[indexOfTime];
+    
+    var times = [];
+    var sum = 0;
+    var average, min, max;
+    min = omitBW ? -Infinity : Infinity;
+    max = omitBW ? Infinity : -Infinity;
+    
+    
+    for (var i = indexOfTime; i > (indexOfTime - size); i--) {
+        
+        // If DNF, continue
+        if (currentEvent.times[i].dnf) {
+            if (max == "DNF" || omitBW) { average = "DNF"; }
+            else { max = omitBW ? Infinity : "DNF"; }
+        }
+        
+        // Get time value, check min/max
+        var t = currentEvent.times[i].time;
+        
+        if (!currentEvent.times[i].dnf) {
+            if (t < min) { min = t; }
+            else if (t > max) { max = t; }
+        }
+        
+        // Add value to times array, add to sum if not dnf
+        times.push(currentEvent.times[i].dnf ? "DNF" : t);
+        if (!currentEvent.times[i].dnf) { sum += t; }
+        
+    }
+    
+    // Subtract max if not dnf, subtract min
+    if (max != "DNF" && max != Infinity) { sum -= max; }
+    if (min != -Infinity) { sum -= min; }
+    
+    
+    if (average != "DNF") {
+        average = sum/(size - (omitBW ? 0 : 2));
+    }
+    
+    // Parse times array, format + add parentheses
+    for (var k = 0; k < times.length; k++) {
+        
+        // Formatted time
+        var formatted = formatTime(times[k]);
+        
+        // If it was a plus two, add + to formatted
+        if (currentEvent.times[indexOfTime - k].plusTwo) { formatted += "+"; }
+        
+        // If var is min or max, add parentheses and format
+        if (times[k] == min || times[k] == max) {
+            times[k] = "(" + formatted + ")";
+        }
+        
+        // Else just format
+        else { times[k] = formatted; }
+        
+        // If it's a DNF, make it orange
+        if (times[k] == "(DNF)") {
+            times[k] = "<span style='color:#e67e22;'>" + times[k] + "</span>";
+        }
+        
+        else if (times[k][times[k].length - 1] == "+") {
+            times[k] = "<span style='color:#9b59b6;'>" + times[k] + "</span>";
+        }
+        
+    }
+    // Reverse it so it starts with the first time and ends with most recent
+    times.reverse();
+    
+    document.getElementById("avgTimesList").innerHTML = times.join(", ");
+    document.getElementById("avgInfoValue").innerHTML = formatTime(average);
+    document.getElementById("timeIndexes").innerHTML = "(Times " + (indexOfTime - (size - 2)) + " through " + (indexOfTime + 1) + ")";
+    
+    
+    // Display modal, flex for vertical centering
+    document.getElementById("avgInfoWrapper").style.display = "flex";
+    
+    Settings.timerDisabled = true;
+    
+}
+
+// On ao5 element click, display ao5 info.  Same with ao12
+document.getElementById("ao5").children[1].onclick = function() {
+    
+    if (this.innerHTML != "-") {
+        
+        if (currentEvent == sixBySix || 
+            currentEvent == sevenBySeven || 
+            currentEvent == blindfolded) {
+            displayAverage(currentEvent.times.length - 1, 3, true);
+        }
+        
+        else {
+            displayAverage(currentEvent.times.length - 1, 5);
+        }
+    }
+}
+
+document.getElementById("ao12").children[1].onclick = function() {
+    
+    if (this.innerHTML != "-") {
+        displayAverage(currentEvent.times.length - 1, 12);
+    }
+}
+
+// Tricky part: best averages
+document.getElementById("bao5").children[1].onclick = function() {
+    
+    // Don't bother if there isn't an average
+    if (this.innerHTML == "-") { return false; }
+    
+    // First, find time that has this average
+    for (var i = 0; i < currentEvent.times.length; i++) {
+        
+        // If average is found, display its info and break
+        if (currentEvent.times[i].ao5 == currentEvent.bestAvg5) {
+            
+            if (currentEvent == sixBySix || 
+                currentEvent == sevenBySeven || 
+                currentEvent == blindfolded) {
+                displayAverage(i, 3, true);
+            }
+            
+            else {
+                displayAverage(i, 5);
+            }
+            break;
+        }
+    }
+    
+}
+
+document.getElementById("bao12").children[1].onclick = function() {
+    
+    // Don't bother if there isn't an average
+    if (this.innerHTML == "-") { return false; }
+    
+    // First, find time that has this average
+    for (var i = 0; i < currentEvent.times.length; i++) {
+        
+        // If average is found, display its info and break
+        if (currentEvent.times[i].ao12 == currentEvent.bestAvg5) {
+            displayAverage(i, 12);
+            break;
+        }
+    }
     
 }
 
