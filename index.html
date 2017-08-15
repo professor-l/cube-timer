@@ -75,7 +75,7 @@
                         
                         <tr id="sessionMean">
                             <td class="label">Session mean:</td>
-                            <td class="value">-</td>
+                            <td class="value" id="special">-</td>
                         </tr>
                         
                         <tr class="gap"></tr>
@@ -107,6 +107,17 @@
         </div>
                     
     
+    </div>
+    
+    <div class="modalWrapper" id="avgInfoWrapper">
+        <div class="modal" id="avgInfo">
+            <span class="closeModal">X</span>
+            <span id="avgInfoValue">10.313</span>
+            <br><br>
+            <span id="avgTimesList">11.141, 9.052, (8.933), 10.745, (12.292)</span>
+            <br><br>
+            <span id="timeIndexes">(Times 3 to 7)</span>
+        </div>
     </div>
     
     <div class="modalWrapper" id="timeInfoWrapper">
@@ -273,8 +284,16 @@
             </div>
             
             <div class="infoContent" id="versionNotes">
+                <h2>Version 0.1.2</h2>
+                <h4>August 15, 2017</h4>
+                <ul>
+                    <li>Display best/worst info on click</li>
+                    <li>Display average of 5 &amp; 12 info on click</li>
+                    <li>6x6, 7x7, and BLD now have mean of 3 instead of average of 5</li>
+                </ul>
+                
                 <h2>Version 0.1.1</h2>
-                <h4>August 14, 2017</h4>
+                <h4>August 13, 2017</h4>
                 <ul>
                     <li>DNFs added</li>
                     <li>Import/export supports +2 and DNF</li>
