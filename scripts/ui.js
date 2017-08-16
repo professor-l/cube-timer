@@ -168,14 +168,24 @@ document.getElementById("worst").children[1].onclick = function() {
     }
 }
 
-
+function ordinalSuffix(i) {
+    var j = i % 10;
+    var k = i % 100;
+    
+    if (j == 1 && k != 11) { return i + "st"; }
+    if (j == 2 && k != 12) { return i + "nd"; }
+    if (j == 3 && k != 13) { return i + "rd"; }
+    return i + "th";
+}
 
 // Define displayInfo function that displays #timeInfo modal
 function displayInfo(timeObject) {
+    var indexOfTime = currentEvent.times.indexOf(timeObject);
     
     // Define variables for various elements
     var formattedTimeElement = document.getElementById("timeInfoValue");
     var millisecondsElement = document.getElementById("timeInfoMilliseconds");
+    var indexElement = document.getElementById("timeInfoIndex");
     var scrambleElement = document.getElementById("timeInfoScramble");
     
     // Reset color in case previous time was blue
@@ -185,6 +195,7 @@ function displayInfo(timeObject) {
     formattedTimeElement.innerHTML = timeObject.formattedTime;
     millisecondsElement.innerHTML = timeObject.time + " milliseconds";
     scrambleElement.innerHTML = timeObject.scramble;
+    indexElement.innerHTML = "(" + ordinalSuffix(indexOfTime + 1) + " Time)"
     
     // Special case if solve is a +2
     if ( timeObject.plusTwo ) {
@@ -357,7 +368,8 @@ document.getElementById("bao12").children[1].onclick = function() {
     for (var i = 0; i < currentEvent.times.length; i++) {
         
         // If average is found, display its info and break
-        if (currentEvent.times[i].ao12 == currentEvent.bestAvg5) {
+        if (currentEvent.times[i].ao12 == currentEvent.bestAvg12) {
+            
             displayAverage(i, 12);
             break;
         }
