@@ -109,7 +109,7 @@ img {
 #tabsDiv {
     margin: auto;
     margin-bottom: 30px;
-    font-family: "Anonymous Pro";
+    font-family: "Roboto";
     font-size: 12pt;
 }
 
@@ -124,6 +124,7 @@ table.tabs td {
     padding-right: 15px;
     padding-bottom: 5px;
     cursor: pointer;
+    font-weight: 300;
     
     border-bottom: 2px solid #bbbbbb;
     
@@ -140,6 +141,7 @@ table.tabs td.active {
     color: #3498db;
     border-bottom: 3px solid #3498db;
     padding-bottom: 4px;
+    font-weight: 500;
 }
 
 table.tabs td:hover {
@@ -326,11 +328,11 @@ table.tabs td:hover {
     background-color: #cccccc;
 }
 
-#statsTable td#special {
+#statsTable td.special {
     cursor: inherit;
 }
 
-#statsTable td#special:hover {
+#statsTable td.special:hover {
     background-color: inherit;
     
 }
@@ -392,6 +394,12 @@ table.tabs td:hover {
 #timeInfoMilliseconds {
     letter-spacing: 1px;
     font-weight: 300;
+}
+
+#timeInfoIndex {
+    letter-spacing: 1px;
+    font-weight: 300;
+    padding-left: 50px;
 }
 
 #timeInfoScrambleLabel {
