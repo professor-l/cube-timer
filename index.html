@@ -73,9 +73,13 @@
                         
                         <tr class="gap"></tr>
                         
+                        <tr id="sessionAverage">
+                            <td class="label">Session avg:</td>
+                            <td class="value special">-</td>
+                        </tr>
                         <tr id="sessionMean">
                             <td class="label">Session mean:</td>
-                            <td class="value" id="special">-</td>
+                            <td class="value special">-</td>
                         </tr>
                         
                         <tr class="gap"></tr>
@@ -126,6 +130,7 @@
             <span id="timeInfoValue">7.74</span>
             <br>
             <span id="timeInfoMilliseconds">7743 milliseconds</span>
+            <span id="timeInfoIndex">(Time 0)</span>
             <br><br><br><span id="timeInfoScrambleLabel">Scramble:</span><br><br>
             <span id="timeInfoScramble">Unknown Scramble</span>
         </div>
@@ -283,7 +288,17 @@
                 suffice.</p>
             </div>
             
+                
+                
             <div class="infoContent" id="versionNotes">
+                <h2>Version 0.1.3</h2>
+                <h4>August 16, 2017</h4>
+                <ul>
+                    <li>Fixed ao12 info display bug</li>
+                    <li>Session averages!</li>
+                    <li>Time info now displays index of time</li>
+                </ul>
+                
                 <h2>Version 0.1.2</h2>
                 <h4>August 15, 2017</h4>
                 <ul>
