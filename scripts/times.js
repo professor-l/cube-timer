@@ -200,6 +200,69 @@ Array.prototype.mo3 = function(startIndex = this.length - 1) {
     return sum/3;
 }
 
+Array.prototype.sessionAverage = function() {
+    if (this.length < 3) { return false; }
+    
+    var finalSum = 0;
+    
+    // Ceiling of length/20 is number of maxes/mins to omit
+    var toOmit = Math.ceil(this.length / 20);
+    
+    var mins = [];
+    var maxes = [];
+    var dnfs = 0
+    
+    // Add values to mins, maxes until correct length
+    for (var i = 0; i < toOmit; i++) {
+        mins.push(Infinity);
+        maxes.push(-Infinity);
+    }
+    
+    // Only one loop through!!
+    for (var m = 0; m < this.length; m++) {
+        
+        // Min and max thresholds
+        var threshMin = Math.max.apply(Math, mins);
+        var threshMax = Math.min.apply(Math, maxes);
+        
+        // Indexes of values to be replaced
+        var minReplace = mins.indexOf(threshMin);
+        var maxReplace = maxes.indexOf(threshMax);
+        
+        // If it's a dnf, add it to dnfs and continue
+        if (this[m].dnf) { dnfs++; continue; }
+        
+        finalSum += this[m].time;
+        
+        // If it's greater than max's smallest, replace that with new value
+        if (this[m].time > threshMax) {
+            maxes[maxReplace] = this[m].time;
+        }
+        
+        // If it's less than min's largest, replace that with new value
+        if (this[m].time < threshMin) {
+            mins[minReplace] = this[m].time;
+        }
+        
+    }
+
+    // If too many dnfs, return dnf
+    if (dnfs > toOmit) { return "DNF"; }
+    
+    // Replace values in maxes with dnfs as necessary
+    for (var k = 0; k < dnfs; k++) {
+        maxes[maxes.indexOf(Math.min.apply(Math, maxes))] = Infinity;
+    }
+    
+    // Subtract all values in max and min from sum
+    for (var n = 0; n < maxes.length; n++) {
+        if (Number.isInteger(maxes[n])) { finalSum -= maxes[n]; }
+        finalSum -= mins[n];
+    }
+    
+    return finalSum / (this.length - (2*toOmit));
+    
+}
 
 
 function addTime(time, scramble=currentScramble.scramble_string||currentScramble, u=true) {
@@ -530,7 +593,8 @@ function updateAverageDisplays() {
     var ao5 = document.getElementById("ao5").children[1];
     var ao12 = document.getElementById("ao12").children[1];
     
-    // Session mean
+    // Session avg, mean
+    var avg = document.getElementById("sessionAverage").children[1];
     var mean = document.getElementById("sessionMean").children[1];
     
     // Best and worst times
@@ -544,6 +608,7 @@ function updateAverageDisplays() {
     ao5.innerHTML = formatTime(currentEvent.times.average(5)) || "-";
     ao12.innerHTML = formatTime(currentEvent.times.average(12)) || "-";
     
+    avg.innerHTML = formatTime(currentEvent.times.sessionAverage()) || "-";
     mean.innerHTML = formatTime(currentEvent.sessionMean) || "-";
     if (currentEvent.sessionMean == 0) { mean.innerHTML = "-"; }
     
