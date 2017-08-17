@@ -112,6 +112,39 @@
                     
     
     </div>
+    <div class="modalWrapper" id="exportWrapper">
+        <div class="modal" id="exportModal">
+            <span class="closeModal">X</span>
+            <span id="exportTitle">Export Times</span>
+            <p>To export times, you can either 
+                <a id="exportDownload">download a text file</a>
+            or copy and paste the string below. Be sure to save
+            it somewhere so you can import it later!</p>
+            <textarea spellcheck="false" id="exportTextarea" class="ie" value=""  placeholder="No times yet. Go solve!"></textarea>
+            
+        </div>
+    </div>
+    
+    <div class="modalWrapper" id="importWrapper">
+        <div class="modal" id="importModal">
+            <span class="closeModal">X</span>
+            <span id="importTitle">Import Times</span>
+            <p>To import times, paste the string you got when you
+            exported your times in the area below, then click import!</p>
+            <textarea spellcheck="false" id="importTextarea" class="ie" value="" placeholder="Paste the string here!"></textarea>
+            <br>
+            <p id="importError">Invalid import string.</p>
+            
+            <span id="preserveLabel">Preserve current times: </span>
+            <label class="switch" id="preserveToggle">
+                <input type="checkbox" id="preserveInput" checked="false">
+                <span class="slider"></span>
+            </label>
+            
+            <button id="importButton">IMPORT</button>
+            
+        </div>
+    </div>
     
     <div class="modalWrapper" id="avgInfoWrapper">
         <div class="modal" id="avgInfo">
@@ -280,17 +313,25 @@
                 <p>Beacuse of the amount of time I devote to this
                 project, 
                     <a href="https://www.paypal.me/ProfessorElle">
-                        donations via PayPal</a> are much appreciated
-                and can be sent to ProfessorLWebDev@gmail.com.
-                If this site recieves substantial support, I'll set
-                up a Patreon page and pay for hosting on a custom
-                domain, but until then GitHub Pages hosting will
-                suffice.</p>
+                        donations via PayPal</a> are much appreciated.
+                    If this site recieves substantial support, I'll 
+                    set up a Patreon page and pay for hosting on a
+                    custom domain, but until then GitHub Pages hosting
+                    will suffice.</p>
             </div>
             
                 
                 
             <div class="infoContent" id="versionNotes">
+                <h2>Version 0.2.0</h2>
+                <h4>August 17, 2017</h4>
+                <ul>
+                    <li>Importation and exportation of all events 
+                        simultaneously and manually<li>
+                    <li>Option to preserve current times on import</li>
+                    <li>Modal style update and animation added</li>
+                </ul>
+                
                 <h2>Version 0.1.3</h2>
                 <h4>August 16, 2017</h4>
                 <ul>
