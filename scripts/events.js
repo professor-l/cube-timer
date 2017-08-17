@@ -17,6 +17,22 @@ function Event(name, scrambleFunction) {
     this.bestAvg12 = Infinity;
     
     this.sessionMean = 0;
+    
+    this.reset = function() {
+        
+        this.times = [];
+        this.timesToAvg = 0;
+        
+        this.best = new Time(Infinity);
+        this.worst = new Time(-Infinity);
+        
+        this.bestAvg5 = Infinity;
+        this.bestAvg12 = Infinity;
+
+        this.sessionMean = 0;
+        
+        localStorage.removeItem(this.name);
+    }
 }
 
 // All the events included in the timer, plus an 'other'
