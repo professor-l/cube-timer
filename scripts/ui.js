@@ -214,8 +214,7 @@ function displayInfo(timeObject) {
         formattedTimeElement.style.color = "#e67e22";
     }
     
-    // Display modal with flex to allow vertical centering
-    document.getElementById("timeInfoWrapper").style.display = "flex";
+    displayModal(document.getElementById("timeInfoWrapper"));
     
     Settings.timerDisabled = true;
     
@@ -301,8 +300,10 @@ function displayAverage(indexOfTime, size, omitBW=false) {
     document.getElementById("timeIndexes").innerHTML = "(Times " + (indexOfTime - (size - 2)) + " through " + (indexOfTime + 1) + ")";
     
     
-    // Display modal, flex for vertical centering
-    document.getElementById("avgInfoWrapper").style.display = "flex";
+    // Display modal,
+    displayModal(document.getElementById("avgInfoWrapper"));
+    
+    document.getElementById("avgInfo").style.transform = "translateY(0px)";
     
     Settings.timerDisabled = true;
     
@@ -413,7 +414,7 @@ exportIcon.onmouseleave = function() {
 
 
 infoIcon.onclick = function() {
-    document.getElementById("infoWrapper").style.display = "flex";
+    displayModal(document.getElementById("infoWrapper"));
     Settings.timerDisabled = true;
 }
 
@@ -491,12 +492,30 @@ for (var i = 0; i < modalCloseButtons.length; i++) {
     modalCloseButtons[i].onclick = function() {
         
         // Get modal that is direct parent of this close button
-        var modalWrapper = this.parentElement.parentElement;
-        
-        // Set style display to none
-        modalWrapper.style.display = "none";
-        
-        // Reenable timer
-        Settings.timerDisabled = false;
+        hideModal(this.parentElement.parentElement);
     }
+}
+
+function hideModal(wrapper) {
+    var modal = wrapper.firstElementChild;
+    
+    // Fade out background, move modal up
+    wrapper.style.backgroundColor = "transparent";
+    modal.style.transform = "translateY(-60px)";
+    
+    // Set timeout for modal hide
+    setTimeout(function() {wrapper.style.display = "none";}, 150);
+}
+
+// Defining modal animation
+function displayModal(wrapper) {
+    var modal = wrapper.firstElementChild;
+    
+    // Display modal
+    wrapper.style.display = "flex";
+    setTimeout(function() {
+        wrapper.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+        modal.style.transform = "translateY(0px)";
+    }, 1);
+    
 }
