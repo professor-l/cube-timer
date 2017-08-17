@@ -270,10 +270,21 @@ function importEvent(encodedEvent) {
     }
 }
 
-function importEvents(longstring) {
+function importEvents(longstring, preserveTimes=true) {
     
     // Store current event to revert back to
     var eventBefore = currentEvent;
+    
+    // If we're not preserving times, clear/reset all events
+    if (!preserveTimes) {
+        for (var m = 0; m < events.length; m++) { events[m].reset(); }
+        
+        // Clear time list & averages
+        var li = document.getElementById("timesTableBody");
+        while (li.firstChild) { li.removeChild(li.firstChild); }
+        
+        updateAverageDisplays();
+    }
     
     // Split into events
     var e = longstring.split("{");
@@ -294,10 +305,17 @@ function importEvents(longstring) {
         
         // Import all those times
         importEvent(times);
+        
+        // Set localStorage to that value if preserve set to false
+        if (!preserveTimes) {
+            localStorage[currentEvent.name] = times;
+        }
     }
     
     // Change event back
     changeEvent(eventBefore);
+    
+    return true;
 }
 
 window.onload = function() {
@@ -318,4 +336,98 @@ window.onload = function() {
     }
     
     changeEvent(threeByThree);
+}
+
+document.getElementById("exportIcon").onclick = function() {
+    
+    var s = encodeEverything();
+    
+    displayModal(document.getElementById("exportWrapper"));
+    
+    var link = document.getElementById("exportDownload");
+    link.href = "data:text/plain;charset=utf-8," + s;
+    
+    // Generate file name
+    var t = new Date();
+    var hrs = t.getHours();
+    var min = t.getMinutes();
+    
+    // AM or PM
+    var am_pm = hrs < 12 ? "AM" : "PM";
+    
+    // Mod it by 12, but 0 should be 12 instead
+    hrs = hrs % 12 || 12;
+    
+    // Pad min if necessary
+    min = ( min < 10 ) ? "0"+min : min;
+    
+    var time = hrs + " " + min + " " + am_pm;
+    
+    // Now for the date
+    var date = t.getFullYear() + "-" + 
+               (t.getMonth() + 1) + "-" + 
+               (t.getDate());
+    
+    // Set name of text file for download
+    link.download = "Cube times " + date + ", " + time;
+    
+    // Set value of textarea to generated string
+    document.getElementById("exportTextarea").value = s;
+    
+}
+
+document.getElementById("importIcon").onclick = function() {
+    
+    displayModal(document.getElementById("importWrapper"));
+    hideError();
+    
+    
+}
+
+var e = document.getElementById("importError");
+
+function displayError() {
+    e.innerHTML = "Invalid import string."
+    e.style.display = "inline";
+    e.style.color = "#e74c3c";
+}
+function hideError() {
+    e.style.display = "none";
+}
+function showSuccess() {
+    e.innerHTML = "Success!";
+    e.style.display = "inline";
+    e.style.color = "#2ecc71";
+}
+
+document.getElementById("importButton").onclick = function() {
+    
+    // String to be imported
+    var toImport = document.getElementById("importTextarea").value;
+    
+    // If it's empty or obviously invalid
+    if (toImport == "" || toImport[0] != "{") {
+        
+        displayError();
+        return false;
+    }
+    
+    // Back up in case overwrite fails
+    var backup = encodeEverything();
+    
+    // Preserve times or not?
+    var preserve = document.getElementById("preserveInput").checked;
+    // Did it work?
+    var importedProperly = importEvents(toImport, preserve);
+    
+    // If it didn't work, display error & restore backup
+    if (!importedProperly) {
+        displayError();
+        importEvents(backup, false);
+    }
+    
+    // If it did work, reset text in textarea and show success!
+    document.getElementById("importTextarea").value = "";
+    
+    showSuccess();
 }
