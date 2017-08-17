@@ -48,6 +48,8 @@ h1 {
 a {
     text-decoration: none;
     font-weight: 500;
+    color: #3498db;
+    cursor: pointer;
     
     transition: color .3s ease;
     -webkit-transition: color .3s ease;
@@ -55,13 +57,10 @@ a {
     -o-transition: color .3s ease;
 }
 
-a:link {
-    color: #3498db;
-}
 a:visited {
     color: #9b59b6;
 }
-a:link:hover {
+a:hover {
     color: rgba(52, 152, 219, 0.6);
 }
 a:visited:hover {
@@ -351,13 +350,21 @@ table.tabs td:hover {
     top: 0;
     left: 0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: transparent;
     
     /* To show modal, set display to "flex" */
     display: none;
     flex-direction: column;
     justify-content: center;
+    
+    transition: all .2s ease;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    
 }
+
 .modal {
     background-color: #dddddd;
     border-radius: 2px;
@@ -365,6 +372,15 @@ table.tabs td:hover {
     margin: auto;
     position: relative;
     overflow: hidden;
+    box-shadow: 2px 2px 8px #111111;
+    
+    transition: transform .3s ease-out;
+    -webkit-transition: transform .3s ease-out;
+    -moz-transition: transform .3s ease-out;
+    -o-transition: transform .3s ease-out;
+    -ms-transition: transform .3s ease-out;
+    
+    transform: translateY(-60px);
 }
 
 #timeInfo {
@@ -378,12 +394,89 @@ table.tabs td:hover {
     float: right;
     color: #c0392b;
     font-family: "Roboto";
+    font-weight: 500;
     cursor: pointer;
 }
 
 .closeModal:hover {
     color: #e74c3c;
 }
+
+
+
+#exportModal, #importModal {
+    width: 500px;
+    height: 300px;
+    font-family: "Roboto";
+    font-weight: 300;
+}
+
+#exportTitle, #importTitle {
+    font-size: 32pt;
+    font-weight: 500;
+    font-family: "Roboto";
+}
+
+textarea.ie {
+    font-family: "Anonymous Pro", monospace;
+    font-weight: 300;
+    font-size: 12pt;
+    background-color: #dddddd;
+    color: #444444;
+    resize: none;
+    width: 480px;
+    height: 140px;
+    padding: 10px;
+    
+    border: none;
+    border-bottom: 2px solid #bbbbbb;
+    transition: border .3s ease;
+    -webkit-transition: border .3s ease;
+    -o-transition: border .3s ease;
+    -ms-transition: border .3s ease;
+    -moz-transition: border .3s ease;
+}
+
+textarea.ie:focus {
+    outline: none;
+    border-bottom: 2px solid #3498db;
+}
+
+#importTextarea {
+    height: 110px;
+}
+
+#importButton {
+    background-color: #3498db;
+    position: absolute;
+    color: #eeeeee;
+    font-size: 10pt;
+    font-family: "Roboto";
+    right: 20px;
+    bottom: 20px;
+}
+
+#importError {
+    font-weight: 500;
+}
+
+#preserveLabel {
+    position: absolute;
+    right: 180px;
+    bottom: 29px;
+}
+
+#preserveToggle {
+    position: absolute;
+    right: 140px;
+    bottom: 32px;
+}
+
+#importButton:hover {
+    background-color: rgba(52, 152, 219, 0.6);
+}
+
+
 
 #timeInfoValue {
     font-size: 36pt;
