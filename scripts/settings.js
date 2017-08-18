@@ -79,6 +79,8 @@ document.getElementById("settingsIcon").onclick = function() {
     digits[which].className = "digit selected";
     digits[(which+1)%2].className = "digit";
     
+    hideConfirm();
+    
 }
 
 document.getElementById("digits2").onclick = function() {
@@ -152,4 +154,96 @@ document.getElementById("settingsSave").onclick = function() {
     
     hideModal(document.getElementById("settingsWrapper"));
     Settings.timerDisabled = false;
+}
+
+var tab1 = document.getElementById("timerSettings");
+var tab2 = document.getElementById("visualSettings");
+var tab3 = document.getElementById("eventSettings");
+
+var div1 = document.getElementById("timerSettingsWrapper");
+var div2 = document.getElementById("visualSettingsWrapper");
+var div3 = document.getElementById("eventSettingsWrapper");
+
+tab1.onclick = function() {
+    tab1.className = "active";
+    tab2.className = "";
+    tab3.className = "";
+    
+    div1.style.display = "block";
+    div2.style.display = "none";
+    div3.style.display = "none";
+    
+    hideConfirm();
+}
+
+tab2.onclick = function() {
+    tab1.className = "";
+    tab2.className = "active";
+    tab3.className = "";
+    
+    div1.style.display = "none";
+    div2.style.display = "block";
+    div3.style.display = "none";
+    
+    hideConfirm();
+}
+
+tab3.onclick = function() {
+    tab1.className = "";
+    tab2.className = "";
+    tab3.className = "active";
+    
+    div1.style.display = "none";
+    div2.style.display = "none";
+    div3.style.display = "block";
+    
+    hideConfirm();
+}
+
+var preview = document.getElementById("displayFont");
+
+// Set fonts onclick
+document.getElementById("font1").onclick = function() {
+    preview.style.fontFamily = "Anonymous Pro";
+    timerElement.style.fontFamily = "Anonymous Pro";
+}
+document.getElementById("font2").onclick = function() {
+    preview.style.fontFamily = "VT323";
+    timerElement.style.fontFamily = "VT323";
+}  
+document.getElementById("font3").onclick = function() {
+    preview.style.fontFamily = "Iceland";
+    timerElement.style.fontFamily = "Iceland";
+}
+document.getElementById("font4").onclick = function() {
+    preview.style.fontFamily = "Iceberg";
+    timerElement.style.fontFamily = "Iceberg";
+}
+
+function showConfirm() {
+    document.getElementById("confirmTimeCount").innerHTML = currentEvent.times.length;
+    document.getElementById("confirmEventName").innerHTML = currentEvent.element.innerHTML;
+    
+    document.getElementById("clearTimesConfirm").style.transform = "translateY(0px)";
+}
+
+function hideConfirm() {
+    document.getElementById("clearTimesConfirm").style.transform = "translateY(200px)";
+}
+
+document.getElementById("clearTimesButton").onclick = function() {
+    if (currentEvent.times.length > 0) {
+        showConfirm();
+    }
+}
+
+document.getElementById("clearCancelButton").onclick = hideConfirm;
+
+document.getElementById("clearConfirmButton").onclick = function() {
+    hideConfirm();
+    currentEvent.reset();
+    var timesTable = document.getElementById("timesTableBody");
+    while (timesTable.firstElementChild) {
+        timesTable.removeChild(timesTable.firstElementChild);
+    }
 }
