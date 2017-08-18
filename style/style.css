@@ -4,15 +4,14 @@ Import Google Fonts:
     - Anonymous Pro
     - Roboto
 
-Later: 
-    - VT323
-    - Offside
-    - Combo
+( Other 3 for timer font )
     - Iceland
     - Iceberg
+    - VT323
+
 */
 
-@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro|Roboto:300,500');
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro|Roboto:300,500|VT323|Iceland|Iceberg');
 
 html, body {
     width: 100%;
@@ -357,11 +356,11 @@ table.tabs td:hover {
     flex-direction: column;
     justify-content: center;
     
-    transition: all .2s ease;
-    -webkit-transition: all .2s ease;
-    -moz-transition: all .2s ease;
-    -o-transition: all .2s ease;
-    -ms-transition: all .2s ease;
+    transition: all .3s ease;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -ms-transition: all .3s ease;
     
 }
 
@@ -373,12 +372,13 @@ table.tabs td:hover {
     position: relative;
     overflow: hidden;
     box-shadow: 2px 2px 8px #111111;
+    opacity: 0;
     
-    transition: transform .3s ease-out;
-    -webkit-transition: transform .3s ease-out;
-    -moz-transition: transform .3s ease-out;
-    -o-transition: transform .3s ease-out;
-    -ms-transition: transform .3s ease-out;
+    transition: transform .3s ease-out, opacity .3s;
+    -webkit-transition: transform .3s ease-out, opacity .3s;
+    -moz-transition: transform .3s ease-out, opacity .3s;
+    -o-transition: transform .3s ease-out, opacity .3s;
+    -ms-transition: transform .3s ease-out, opacity .3s;
     
     transform: translateY(-60px);
 }
@@ -525,7 +525,14 @@ textarea.ie:focus {
 
 #settings {
     width: 400px;
+    height: 315px;
     font-family: "Roboto";
+}
+
+#settingsTabsTable {
+    text-align: center;
+    margin: auto;
+    margin-bottom: 30px;
 }
 
 span.major {
@@ -612,6 +619,64 @@ span.minor {
     border-radius: 0px 2px 2px 0px;
 }
 
+#visualSettingsWrapper, #eventSettingsWrapper {
+    display: none;
+}
+
+#fontLabel {
+    text-align: center;
+}
+
+button.font {
+    margin-right: 16px;
+    color: #eeeeee;
+}
+
+button.font.last {
+    margin-right: 0;
+}
+
+
+
+#font1 {
+    background-color: #e74c3c;
+}
+
+#font1:hover {
+    background-color: rgba(231, 76, 60, 0.6)
+}
+
+#font2 {
+    background-color: #f1c40f;
+}
+
+#font2:hover {
+    background-color: rgba(241, 196, 15, 0.6);
+}
+
+#font3 {
+    background-color: #2ecc71;
+}
+
+#font3:hover {
+    background-color: rgba(46, 204, 113, 0.6);
+}
+
+#font4 {
+    background-color: #3498db;
+}
+
+#font4:hover {
+    background-color: rgba(52, 152, 219, 0.6);
+}
+
+
+
+#displayFont{
+    font-family: "Anonymous Pro";
+    text-align: center;
+    font-size: 24pt;
+}
 
 
 #settingsSave {
@@ -640,6 +705,12 @@ button {
     padding-right: 20px;
     border: none;
     box-shadow: 0px 0px 6px #aaaaaa;
+    font-size: 10pt;
+    color: #444444;
+    
+    font-family: "Roboto";
+    font-weight: 500;
+    background-color: transparent;
     
     transition: background-color .3s ease, box-shadow .3s ease;
     -webkit-transition: background-color .3s ease, box-shadow .3s ease;
