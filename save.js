@@ -269,7 +269,7 @@ function importEvent(encodedEvent) {
         }
     }
     
-    localStorage[currentEvent.name] = encodeEventTimes(currentEvent);
+    localStorage[currentEvent.name] = encodeEventTimes(currentEvent).split("}")[1];
 }
 
 function importEvents(longstring, preserveTimes=true) {
