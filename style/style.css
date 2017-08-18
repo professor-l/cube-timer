@@ -679,6 +679,53 @@ button.font.last {
 }
 
 
+
+#clearTimes, #clearTimesConfirm {
+    text-align: center;
+    font-weight: 300;
+}
+
+#clearTimesConfirm {
+    transform: translateY(200px);
+    
+    transition: transform .3s ease-out;
+    -webkit-transition: transform .3s ease-out;
+    -moz-transition: transform .3s ease-out;
+    -o-transition: transform .3s ease-out;
+    -ms-transition: transform .3s ease-out;
+}
+
+#eventSettingsWrapper button {
+    color: #eeeeee;
+}
+
+#clearTimesButton {
+    background-color: rgba(231, 76, 60, 1.0);
+}
+
+#clearTimesButton:hover {
+    background-color: rgba(231, 76, 60, 0.6);
+}
+
+#clearConfirmButton {
+    background-color: rgba(46, 204, 113, 1.0);
+}
+
+#clearConfirmButton:hover {
+    background-color: rgba(46, 204, 113, 0.6);
+}
+
+#clearCancelButton {
+    background-color: rgba(231, 76, 60, 1.0);
+}
+
+#clearCancelButton:hover {
+    background-color: rgba(231, 76, 60, 0.6);
+}
+
+
+
+
 #settingsSave {
     font-size: 10pt;
     color: #eeeeee;
@@ -807,8 +854,8 @@ input:checked + .slider:before {
 
 
 #about {
-    width: 80%;
-    height: 80%;
+    width: 60%;
+    height: 60%;
     margin: auto;
     text-align: center;
 }
