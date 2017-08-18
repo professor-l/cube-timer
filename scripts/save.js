@@ -268,6 +268,8 @@ function importEvent(encodedEvent) {
             
         }
     }
+    
+    localStorage(currentEvent.name) = encodeEventTimes(currentEvent);
 }
 
 function importEvents(longstring, preserveTimes=true) {
