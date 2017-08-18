@@ -44,7 +44,9 @@
             <span id="scramble"></span>
         </div>
         <div id="timeDiv">
-            <span id="time">0.000</span>
+            <span id="time">
+                0.000
+            </span>
         </div>
         
     </div>
@@ -173,58 +175,99 @@
         <div class="modal" id="settings">
             
             <h1>Timer Settings</h1>
-            <br>
             
-            <div id="inspectionSettings">
-                
-                <span class="major">Inspection time:</span>
-                <label class="switch" id="inspectionToggle">
-                    <input type="checkbox" id="inspectionTimeInput">
-                    <span class="slider"></span>
-                </label>
-                
-                <input id="inspectionSeconds" type="text" 
-                       placeholder="Length" value="15">
-                <span class="minor">seconds</span>
-            </div><br>
+            <table id="settingsTabsTable" class="tabs">
+                <tbody id="settingsTabsBody">
+                    <tr id="settingsTabs">
+                        <td id="timerSettings" class="active">Timer</td>
+                        <td id="visualSettings">Visual</td>
+                        <td id="eventSettings">Event</td>
+                    </tr>
+                </tbody>
+            </table>
             
-            <div id="holdDelaySettings">
-                
-                <span class="major">Hold delay:</span>
-                <label class="switch" id="holdDelayToggle">
-                    <input type="checkbox" id="holdDelayInput" checked="true">
-                    <span class="slider"></span>
-                </label>
-                
-                <input id="holdDelaySeconds" type="text"
-                       placeholder="Length" value="0.55">
-                <span class="minor">seconds</span>
-            </div>
+            <div id="timerSettingsWrapper">
             
-            <div id="hideTimerSettings">
-                
-                <span class="major">Hide running timer:</span>
-                <label class="switch" id="hideTimerToggle">
-                    <input type="checkbox" id="hideTimerInput">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            <br><br>
-            
-            
-            
-            <div id="digitsSettings">
-                
-                <span class="major">Decimal places:</span>
-                
-                <div id="digitsButtonsWrapper">
-                    <button id="digits2" class="digit">2</button>
-                    <button id="digits3" class="digit selected">3</button>
+                <div id="inspectionSettings">
+
+                    <span class="major">Inspection time:</span>
+                    <label class="switch" id="inspectionToggle">
+                        <input type="checkbox" id="inspectionTimeInput">
+                        <span class="slider"></span>
+                    </label>
+
+                    <input id="inspectionSeconds" type="text" 
+                           placeholder="Length" value="15">
+                    <span class="minor">seconds</span>
+                </div><br>
+
+                <div id="holdDelaySettings">
+
+                    <span class="major">Hold delay:</span>
+                    <label class="switch" id="holdDelayToggle">
+                        <input type="checkbox" id="holdDelayInput" checked="true">
+                        <span class="slider"></span>
+                    </label>
+
+                    <input id="holdDelaySeconds" type="text"
+                           placeholder="Length" value="0.55">
+                    <span class="minor">seconds</span>
                 </div>
+
+                <div id="hideTimerSettings">
+
+                    <span class="major">Hide running timer:</span>
+                    <label class="switch" id="hideTimerToggle">
+                        <input type="checkbox" id="hideTimerInput">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <br><br>
+
+
+
+                <div id="digitsSettings">
+
+                    <span class="major">Decimal places:</span>
+
+                    <div id="digitsButtonsWrapper">
+                        <button id="digits2" class="digit">2</button>
+                        <button id="digits3" class="digit selected">3</button>
+                    </div>
+
+                </div>
+
+                <br><br><br>
             
             </div>
             
-            <br><br><br>
+            <div id="visualSettingsWrapper">
+                <div id="timerFontDiv">
+                    <p id="fontLabel">Timer Font: </p>
+                    <button class="font" id="font1">FONT 1</button>
+                    <button class="font" id="font2">FONT 2</button>
+                    <button class="font" id="font3">FONT 3</button>
+                    <button class="font last" id="font4">FONT 4</button>
+                    <p id="displayFont">
+                        123:45:67.890
+                    </p>
+                </div>
+            </div>
+            
+            <div id="eventSettingsWrapper">
+                <div id="clearTimes">
+                    <button id="clearTimesButton">CLEAR TIMES</button>
+                </div>
+                <div id="clearTimesConfirm">
+                    <p>Are you sure you want to clear 
+                        <span id="confirmTimeCount">4</span> 
+                        times from the current event
+                        (<span id="confirmEventName">3x3</span>)?</p>
+                    <button id="clearConfirmButton">YES</button>
+                    <button id="clearCancelButton">NO</button>
+                </div>
+            </div>
+            
             <button id="settingsSave">SAVE</button>
         </div>
     </div>
@@ -323,6 +366,14 @@
                 
                 
             <div class="infoContent" id="versionNotes">
+                <h2>Version 0.2.1</h2>
+                <h4>August 18, 2017</h4>
+                <ul>
+                    <li>Added timer font options</li>
+                    <li>Added option to reset/clear event</li>
+                </ul>
+                
+                
                 <h2>Version 0.2.0</h2>
                 <h4>August 17, 2017</h4>
                 <ul>
@@ -429,6 +480,7 @@
     <script type="text/javascript" src="scripts/save.js"></script>
 
     <script type="text/javascript" src="scripts/ui.js"></script>
+    
 </body>
 
 </html>
