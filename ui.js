@@ -503,6 +503,7 @@ function hideModal(wrapper) {
     
     // Set timeout for modal hide
     setTimeout(function() {wrapper.style.display = "none";}, 150);
+    Settings.timerDisabled = false;
 }
 
 // Defining modal animation
@@ -515,5 +516,7 @@ function displayModal(wrapper) {
         wrapper.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
         modal.style.transform = "translateY(0px)";
     }, 1);
+    
+    Settings.timerDisabled = true;
     
 }
