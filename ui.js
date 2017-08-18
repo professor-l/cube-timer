@@ -1,5 +1,4 @@
-var fonts = ["Iceland", "Iceberg", "Anonymous Pro",
-            "VT323", "Offside", "Combo"];
+
 
 var red = "#e74c3c";
 var green = "#2ecc71";
@@ -134,10 +133,15 @@ function startCubeTimer() {
         updateTimer = setInterval( function () {
 
             // Display formatted time in timerElement
-            timerElement.innerHTML = formatTime(cubeTimer.currentTime());    
+            updateTimerElement(formatTime(cubeTimer.currentTime()));    
 
         }, 1);
     }
+}
+
+function updateTimerElement(formattedTime) {
+
+    timerElement.innerHTML = formattedTime;
 }
 
 function stopCubeTimer() {
@@ -500,9 +504,10 @@ function hideModal(wrapper) {
     // Fade out background, move modal up
     wrapper.style.backgroundColor = "transparent";
     modal.style.transform = "translateY(-60px)";
+    modal.style.opacity = "0";
     
     // Set timeout for modal hide
-    setTimeout(function() {wrapper.style.display = "none";}, 150);
+    setTimeout(function() {wrapper.style.display = "none";}, 300);
     Settings.timerDisabled = false;
 }
 
@@ -515,6 +520,7 @@ function displayModal(wrapper) {
     setTimeout(function() {
         wrapper.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
         modal.style.transform = "translateY(0px)";
+        modal.style.opacity = 1;
     }, 1);
     
     Settings.timerDisabled = true;
