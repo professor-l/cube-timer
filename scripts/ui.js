@@ -1,5 +1,4 @@
-var fonts = ["Iceland", "Iceberg", "Anonymous Pro",
-            "VT323", "Offside", "Combo"];
+
 
 var red = "#e74c3c";
 var green = "#2ecc71";
@@ -134,10 +133,15 @@ function startCubeTimer() {
         updateTimer = setInterval( function () {
 
             // Display formatted time in timerElement
-            timerElement.innerHTML = formatTime(cubeTimer.currentTime());    
+            updateTimerElement(formatTime(cubeTimer.currentTime()));    
 
         }, 1);
     }
+}
+
+function updateTimerElement(formattedTime) {
+
+    timerElement.innerHTML = formattedTime;
 }
 
 function stopCubeTimer() {
@@ -300,10 +304,8 @@ function displayAverage(indexOfTime, size, omitBW=false) {
     document.getElementById("timeIndexes").innerHTML = "(Times " + (indexOfTime - (size - 2)) + " through " + (indexOfTime + 1) + ")";
     
     
-    // Display modal,
+    // Display modal
     displayModal(document.getElementById("avgInfoWrapper"));
-    
-    document.getElementById("avgInfo").style.transform = "translateY(0px)";
     
     Settings.timerDisabled = true;
     
@@ -502,9 +504,11 @@ function hideModal(wrapper) {
     // Fade out background, move modal up
     wrapper.style.backgroundColor = "transparent";
     modal.style.transform = "translateY(-60px)";
+    modal.style.opacity = "0";
     
     // Set timeout for modal hide
-    setTimeout(function() {wrapper.style.display = "none";}, 150);
+    setTimeout(function() {wrapper.style.display = "none";}, 300);
+    Settings.timerDisabled = false;
 }
 
 // Defining modal animation
@@ -516,6 +520,9 @@ function displayModal(wrapper) {
     setTimeout(function() {
         wrapper.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
         modal.style.transform = "translateY(0px)";
+        modal.style.opacity = 1;
     }, 1);
+    
+    Settings.timerDisabled = true;
     
 }

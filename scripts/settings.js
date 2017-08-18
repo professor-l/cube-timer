@@ -29,8 +29,8 @@ document.getElementById("settingsIcon").onclick = function() {
     // Setting var to false, track changes in digit display preferences
     digitsChanged = false;
     
-    // Display modal (flex for vertical alignment)
-    document.getElementById("settingsWrapper").style.display = "flex";
+    // Display modal
+    displayModal(document.getElementById("settingsWrapper"));
     
     // Disable timer
     Settings.timerDisabled = true;
@@ -150,6 +150,6 @@ document.getElementById("settingsSave").onclick = function() {
         } 
     }
     
-    document.getElementById("settingsWrapper").style.display = "none";
+    hideModal(document.getElementById("settingsWrapper"));
     Settings.timerDisabled = false;
 }
