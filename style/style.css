@@ -197,7 +197,7 @@ table.tabs td:hover {
 
 
 #timesDiv {
-    width: 300px;
+    width: 330px;
     height: 100%;
     float: left;
     overflow: hidden;
@@ -289,7 +289,7 @@ table.tabs td:hover {
 }
 
 #statsDiv {
-    width: 300px;
+    width: 270px;
     float: left;
     overflow: hidden;
     background-color: #dddddd;
