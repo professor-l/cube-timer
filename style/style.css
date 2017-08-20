@@ -81,13 +81,19 @@ a:visited:hover {
 #importIcon {
     position: absolute;
     top: 15px;
-    right: 100px;
+    right: 130px;
 }
 
 #exportIcon {
     position: absolute;
     top: 15px;
-    right: 130px;
+    right: 100px;
+}
+
+#addTimesIcon {
+    position: absolute;
+    top: 18px;
+    right: 160px;
 }
 
 img {
@@ -382,6 +388,94 @@ table.tabs td:hover {
     
     transform: translateY(-60px);
 }
+
+
+
+#addManuallyModal {
+    font-family: "Roboto";
+    font-weight: 300;
+    width: 500px;
+    height: 300px;
+}
+
+#addTimesTabs {
+    text-align: center;
+    margin: auto;
+}
+
+#addTimesTitle {
+    font-size: 32pt;
+    font-weight: 500;
+}
+
+#timeInput, #scrambleInput {
+    font-family: "Roboto";
+    font-size: 12pt;
+    font-weight: 300;
+}
+
+#timeInput {
+    width: 100px;
+}
+
+#scrambleInput {
+    width: 350px;
+}
+
+#addTimeSuccess {
+    font-weight: 500;
+    color: rgba(231, 76, 60, 1.0);
+    display: none;
+}
+
+#addTimeButton, #addTimesButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(46, 204, 113, 1.0);
+    color: #eeeeee;
+}
+
+#addTimeButton:hover, #addTimesButton:hover {
+    background-color: rgba(46, 204, 113, 0.6)
+}
+
+#addManyDiv {
+    display: none;
+}
+
+#addTimesTextarea {
+    resize: none;
+    padding: 10px;
+    font-family: "Roboto";
+    font-weight: 300;
+    border: none;
+    border-bottom: 2px solid #bbbbbb;
+    background-color: transparent;
+    font-size: 12pt;
+    width: 478px;
+    height: 20px;
+    margin-bottom: 1px;
+    
+    transition: border .3s ease;
+    -webkit-transition: border .3s ease;
+    -moz-transition: border .3s ease;
+    -o-transition: border .3s ease;
+    -ms-transition: border .3s ease;
+}
+
+#addTimesTextarea:focus {
+    outline: none;
+    border-bottom: 2px solid #3498db;
+    margin-bottom: 0px;
+}
+
+#addTimesSuccess {
+    display: none;
+    font-weight: 500;
+}
+
+
 
 #timeInfo {
     width: 500px;
