@@ -13,10 +13,25 @@
 
 <body>
     
-    <img id="settingsIcon" src="images/settings_gray.png" width="30" height="30">
-    <img id="infoIcon" src="images/info_gray.png" width="25" height="25">
-    <img id="importIcon" src="images/upload_gray.png" width="25" height="25">
-    <img id="exportIcon" src="images/download_gray.png" width="25" height="25">
+    <img id="settingsIcon" 
+         src="images/settings_gray.png" 
+         width="30" height="30" />
+    
+    <img id="infoIcon" 
+         src="images/info_gray.png" 
+         width="25" height="25" />
+    
+    <img id="importIcon" 
+         src="images/upload_gray.png" 
+         width="25" height="25" />
+    
+    <img id="exportIcon" 
+         src="images/download_gray.png" 
+         width="25" height="25" />
+    
+    <img id="addTimesIcon" 
+         src="images/add_gray.png" 
+         width="20" height="20" />
     
     <div id="timeContainer">
         <div id="tabsDiv">
@@ -40,9 +55,11 @@
                 </tbody>
             </table>
         </div>
+        
         <div id="scrambleDiv">
             <span id="scramble"></span>
         </div>
+        
         <div id="timeDiv">
             <span id="time">
                 0.000
@@ -52,7 +69,9 @@
     </div>
     
     <div id="bottomContentContainer">
+        
         <div id="innerBottomContent">
+            
             <div id="timesDiv">
                 <div id="innerTimesDiv">
                     <table id="timesTable">
@@ -68,6 +87,7 @@
                             <td class="label">Average of 5:</td>
                             <td class="value">-</td>
                         </tr>
+                        
                         <tr id="ao12">
                             <td class="label">Average of 12:</td>
                             <td class="value">-</td>
@@ -79,6 +99,7 @@
                             <td class="label">Session avg:</td>
                             <td class="value special">-</td>
                         </tr>
+                        
                         <tr id="sessionMean">
                             <td class="label">Session mean:</td>
                             <td class="value special">-</td>
@@ -90,6 +111,7 @@
                             <td class="label">Best time:</td>
                             <td class="value">-</td>
                         </tr>
+                        
                         <tr id="worst">
                             <td class="label">Worst time:</td>
                             <td class="value">-</td>
@@ -101,6 +123,7 @@
                             <td class="label">Best avg of 5:</td>
                             <td class="value">-</td>
                         </tr>
+                        
                         <tr id="bao12">
                             <td class="label">Best avg of 12:</td>
                             <td class="value">-</td>
@@ -114,14 +137,72 @@
                     
     
     </div>
+    
+    <div class="modalWrapper" id="addManuallyWrapper">
+        <div class="modal" id="addManuallyModal">
+            
+            <span class="closeModal">X</span>
+            <span id="addTimesTitle">Add Times</span>
+            <table class="tabs" id="addTimesTabs">
+                <tbody>
+                    <tr>
+                        <td id="addOne" class="active">One at a Time</td>
+                        <td id="addMany">Mass Import</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div id="addOneDiv">
+                <p>To add one time, enter the time with the format 
+                    hh:mm:ss.xxx.  The hours and minutes are optional,
+                    as are the decimal places.  Then, enter the scramble
+                    in the larger adjacent text field.  Finally, click
+                    "Add Time" to add it to the list!</p>
+                <br>
+                <input id="timeInput" type="text" 
+                       placeholder="Time" 
+                       maxlength="12"/>
+                
+                <input id="scrambleInput" type="text" 
+                       maxlength="400" 
+                       placeholder="Scramble"/>
+                
+                <p id="addTimeSuccess">Error: invalid time</p>
+                
+                <button id="addTimeButton">ADD TIME</button>
+            </div>
+            
+            <div id="addManyDiv">
+                <p>To add lots of solves at once, input each time with 
+                    the format hh:mm:ss.xxx, separated by a comma ( , ). 
+                    Once again, the hours and minutes are optional, as 
+                    are the decimal places.Then, click "Add Times".  
+                    Currently, scrambles are not supported for adding 
+                    many times at once.</p>
+                
+                <textarea id="addTimesTextarea"></textarea>
+                <br>
+                <p id="addTimesSuccess"></p>
+                
+                <button id="addTimesButton">ADD TIMES</button>
+            </div>
+            
+            
+        </div>
+    </div>
+    
     <div class="modalWrapper" id="exportWrapper">
         <div class="modal" id="exportModal">
+            
             <span class="closeModal">X</span>
+            
             <span id="exportTitle">Export Times</span>
+            
             <p>To export times, you can either 
                 <a id="exportDownload">download a text file</a>
             or copy and paste the string below. Be sure to save
             it somewhere so you can import it later!</p>
+            
             <textarea spellcheck="false" id="exportTextarea" class="ie" value=""  placeholder="No times yet. Go solve!"></textarea>
             
         </div>
@@ -130,14 +211,18 @@
     <div class="modalWrapper" id="importWrapper">
         <div class="modal" id="importModal">
             <span class="closeModal">X</span>
+            
             <span id="importTitle">Import Times</span>
+            
             <p>To import times, paste the string you got when you
             exported your times in the area below, then click import!</p>
             <textarea spellcheck="false" id="importTextarea" class="ie" value="" placeholder="Paste the string here!"></textarea>
+            
             <br>
             <p id="importError">Invalid import string.</p>
             
             <span id="preserveLabel">Preserve current times: </span>
+            
             <label class="switch" id="preserveToggle">
                 <input type="checkbox" id="preserveInput" checked="false">
                 <span class="slider"></span>
@@ -150,22 +235,31 @@
     
     <div class="modalWrapper" id="avgInfoWrapper">
         <div class="modal" id="avgInfo">
+            
             <span class="closeModal">X</span>
+            
             <span id="avgInfoValue">10.313</span>
             <br><br>
+            
             <span id="avgTimesList">11.141, 9.052, (8.933), 10.745, (12.292)</span>
             <br><br>
+            
             <span id="timeIndexes">(Times 3 to 7)</span>
+            
         </div>
     </div>
     
     <div class="modalWrapper" id="timeInfoWrapper">
         <div class="modal" id="timeInfo">
+            
             <span class="closeModal">X</span>
+            
             <span id="timeInfoValue">7.74</span>
             <br>
+            
             <span id="timeInfoMilliseconds">7743 milliseconds</span>
             <span id="timeInfoIndex">(Time 0)</span>
+            
             <br><br><br><span id="timeInfoScrambleLabel">Scramble:</span><br><br>
             <span id="timeInfoScramble">Unknown Scramble</span>
         </div>
@@ -201,6 +295,8 @@
                     <span class="minor">seconds</span>
                 </div><br>
 
+                
+                
                 <div id="holdDelaySettings">
 
                     <span class="major">Hold delay:</span>
@@ -214,6 +310,8 @@
                     <span class="minor">seconds</span>
                 </div>
 
+                
+                
                 <div id="hideTimerSettings">
 
                     <span class="major">Hide running timer:</span>
@@ -241,28 +339,38 @@
             
             </div>
             
+            
+            
             <div id="visualSettingsWrapper">
                 <div id="timerFontDiv">
+                    
                     <p id="fontLabel">Timer Font: </p>
+                    
                     <button class="font" id="font1">FONT 1</button>
                     <button class="font" id="font2">FONT 2</button>
                     <button class="font" id="font3">FONT 3</button>
                     <button class="font last" id="font4">FONT 4</button>
+                    
                     <p id="displayFont">
                         123:45:67.890
                     </p>
+                    
                 </div>
             </div>
+            
+            
             
             <div id="eventSettingsWrapper">
                 <div id="clearTimes">
                     <button id="clearTimesButton">CLEAR TIMES</button>
                 </div>
                 <div id="clearTimesConfirm">
+                    
                     <p>Are you sure you want to clear 
                         <span id="confirmTimeCount">4</span> 
                         times from the current event
                         (<span id="confirmEventName">3x3</span>)?</p>
+                    
                     <button id="clearConfirmButton">YES</button>
                     <button id="clearCancelButton">NO</button>
                 </div>
@@ -366,12 +474,24 @@
                 
                 
             <div class="infoContent" id="versionNotes">
+                <h2>Version 0.2.2</h2>
+                <h4>August 19, 2017</h4>
+                <ul>
+                    <li>Settings saved in localStorage</li>
+                    <li>Add times manually</li>
+                    <li>HTML file cleaned up</li>
+                </ul>
+                
+                
+                
                 <h2>Version 0.2.1</h2>
                 <h4>August 18, 2017</h4>
                 <ul>
                     <li>Added timer font options</li>
                     <li>Added option to reset/clear event</li>
                 </ul>
+                
+                
                 
                 
                 <h2>Version 0.2.0</h2>
@@ -383,6 +503,8 @@
                     <li>Modal style update and animation added</li>
                 </ul>
                 
+                
+                
                 <h2>Version 0.1.3</h2>
                 <h4>August 16, 2017</h4>
                 <ul>
@@ -391,6 +513,8 @@
                     <li>Time info now displays index of time</li>
                 </ul>
                 
+                
+                
                 <h2>Version 0.1.2</h2>
                 <h4>August 15, 2017</h4>
                 <ul>
@@ -398,6 +522,8 @@
                     <li>Display average of 5 &amp; 12 info on click</li>
                     <li>6x6, 7x7, and BLD now have mean of 3 instead of average of 5</li>
                 </ul>
+                
+                
                 
                 <h2>Version 0.1.1</h2>
                 <h4>August 13, 2017</h4>
@@ -408,12 +534,16 @@
                     <li>+2, DNF functions updated for code legibility</li>
                 </ul>
                 
+                
+                
                 <h2>Version 0.1.0</h2>
                 <h4>August 7, 2017</h4>
                 <ul>
                     <li>Times saved with localStorage!</li>
                     <li>Import/export strings supported in save.js</li>
                 </ul>
+                
+                
                 
                 <h2>Version 0.0.4</h2>
                 <h4>August 2, 2017</h4>
@@ -422,6 +552,9 @@
                     <li>Beginnings of save feature in save.js</li>
                     <li>Import and export buttons added (no functionality yet)</li>
                 </ul>
+                
+                
+                
                 <h2>Version 0.0.3</h2>
                 <h4>July 30, 2017</h4>
                 <ul>
@@ -432,6 +565,9 @@
                     <li>Scramble storage in memory changed in case the JSSS API is fixed</li>
                     <li>Added Square-1</li>
                 </ul>
+                
+                
+                
                 <h2>Version 0.0.2</h2>
                 <h4>July 27, 2017</h4>
                 <ul>
@@ -440,6 +576,8 @@
                     <li>Timer stops when any key is pressed</li>
                     <li>Settings modal only closes on save</li>
                 </ul>
+                
+                
                 
                 <h2>Version 0.0.1 (Alpha Release)</h2>
                 <h4>July 26, 2017</h4>
@@ -457,8 +595,6 @@
             </div>
             </div>
             
-            
-            
         </div>
     </div>
     
@@ -470,6 +606,7 @@
     <script type="text/javascript" src="scripts/scramble-lib/scramble_pyram.js"></script>
     <script type="text/javascript" src="scripts/scramble-lib/scramble_sq1.js"></script>
     
+    <!-- Putting them all together myself, for my needs -->
     <script type="text/javascript" src="scripts/scramble.js"></script>
     
     <!-- Website- and timer-specific js files (I did these! ^.^) -->
@@ -478,6 +615,7 @@
     <script type="text/javascript" src="scripts/times.js"></script>
     <script type="text/javascript" src="scripts/events.js"></script>
     <script type="text/javascript" src="scripts/save.js"></script>
+    <script type="text/javascript" src="scripts/add-manually.js"></script>
 
     <script type="text/javascript" src="scripts/ui.js"></script>
     
