@@ -81,19 +81,19 @@ a:visited:hover {
 #importIcon {
     position: absolute;
     top: 15px;
-    right: 130px;
+    right: 140px;
 }
 
 #exportIcon {
     position: absolute;
     top: 15px;
-    right: 100px;
+    right: 170px;
 }
 
 #addTimesIcon {
     position: absolute;
-    top: 18px;
-    right: 160px;
+    top: 16px;
+    right: 110px;
 }
 
 img {
