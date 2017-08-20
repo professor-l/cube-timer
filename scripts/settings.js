@@ -13,11 +13,72 @@ Settings.decimalPlaces = 3;
 // Hide timer while solving
 Settings.hideTimer = false;
 
+Settings.font = "Anonymous Pro"; 
+
 // Timer disabled or not
 Settings.timerDisabled = false;
 
+function saveSettings() {
+    var toSave = "";
+    
+    // Encode inspection time and length
+    toSave += (Settings.inspectionTime ? 1 : 0);
+    toSave += decimalTo64(Settings.inspectionTimeLength);
+    
+    // Surround holdDelay with semicolons because unknown length
+    toSave += ";";
+    toSave += decimalTo64(Settings.holdDelay);
+    toSave += ";";
+    
+    // Decimal places, hide timer as boolean vars
+    toSave += (Settings.decimalPlaces - 2);
+    toSave += (Settings.hideTimer ? 1 : 0);
+    
+    toSave += ";" + Settings.font;
+    
+    localStorage["settings"] = toSave;
+}
 
-
+function loadSettings() {
+    
+    var toLoad = localStorage["settings"];
+    
+    // If settings don't exist, nothing to load
+    if (!toLoad) { return false; }
+    
+    toLoad = toLoad.split(";");
+    
+    Settings.inspectionTime = toLoad[0][0] == 0 ? false : true;
+    Settings.inspectionTimeLength = base64ToDecimal(toLoad[0][1]);
+    
+    Settings.holdDelay = base64ToDecimal(toLoad[1]);
+    
+    Settings.decimalPlaces = parseInt(toLoad[2][0]) + 2;
+    Settings.hideTimer = toLoad[2][1] == 0 ? false : true;
+    
+    Settings.font = toLoad[3];
+    
+    if (Settings.decimalPlaces == 2) {
+        
+        updateAverageDisplays();
+        
+        timerElement.innerHTML = formatTime(0);
+        
+        // Update time label of each time listed
+        for (var i = 0; i < currentEvent.times.length; i++) {
+            
+            // Get time object
+            var timeObject = currentEvent.times[i];
+            
+            // Rewrite times in list
+            var timeLabel = timeObject.element.children[1];
+            timeLabel.innerHTML = formatTime(timeObject.time);
+            
+        } 
+    }
+    
+    timerElement.style.fontFamily = Settings.font;
+}
 
 
 
@@ -49,6 +110,8 @@ document.getElementById("settingsIcon").onclick = function() {
     var twoDigits = document.getElementById("digits2");
     var threeDigits = document.getElementById("digits3");
     
+    var fontPreview = document.getElementById("displayFont");
+    
     // Inspection time
     inspectionBool.checked = Settings.inspectionTime;
     
@@ -78,6 +141,8 @@ document.getElementById("settingsIcon").onclick = function() {
     
     digits[which].className = "digit selected";
     digits[(which+1)%2].className = "digit";
+    
+    fontPreview.style.fontFamily = Settings.font;
     
     hideConfirm();
     
@@ -146,14 +211,20 @@ document.getElementById("settingsSave").onclick = function() {
             // Get time object
             var timeObject = currentEvent.times[i];
             
+            // Rewrite times in list
             var timeLabel = timeObject.element.children[1];
             timeLabel.innerHTML = formatTime(timeObject.time);
             
         } 
     }
     
+    timerElement.style.fontFamily = Settings.font;
+    
     hideModal(document.getElementById("settingsWrapper"));
+    
     Settings.timerDisabled = false;
+    
+    saveSettings();
 }
 
 var tab1 = document.getElementById("timerSettings");
@@ -204,21 +275,23 @@ var preview = document.getElementById("displayFont");
 
 // Set fonts onclick
 document.getElementById("font1").onclick = function() {
+    Settings.font = "Anonymous Pro";
     preview.style.fontFamily = "Anonymous Pro";
-    timerElement.style.fontFamily = "Anonymous Pro";
 }
 document.getElementById("font2").onclick = function() {
+    Settings.font = "VT323";
     preview.style.fontFamily = "VT323";
-    timerElement.style.fontFamily = "VT323";
 }  
 document.getElementById("font3").onclick = function() {
+    Settings.font = "Iceland";
     preview.style.fontFamily = "Iceland";
-    timerElement.style.fontFamily = "Iceland";
 }
 document.getElementById("font4").onclick = function() {
+    Settings.font = "Iceberg";
     preview.style.fontFamily = "Iceberg";
-    timerElement.style.fontFamily = "Iceberg";
 }
+
+
 
 function showConfirm() {
     document.getElementById("confirmTimeCount").innerHTML = currentEvent.times.length;

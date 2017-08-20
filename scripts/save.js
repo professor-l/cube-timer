@@ -269,7 +269,8 @@ function importEvent(encodedEvent) {
         }
     }
     
-    localStorage[currentEvent.name] = encodeEventTimes(currentEvent).split("}")[1];
+    localStorage[currentEvent.name] = 
+        encodeEventTimes(currentEvent).split("}")[1];
 }
 
 function importEvents(longstring, preserveTimes=true) {
@@ -321,6 +322,10 @@ function importEvents(longstring, preserveTimes=true) {
 }
 
 window.onload = function() {
+    
+    // Load settings if saved
+    loadSettings();
+    
     // For each event
     for (var i = 0; i < events.length; i++) {
         
@@ -338,6 +343,7 @@ window.onload = function() {
     }
     
     changeEvent(threeByThree);
+    
 }
 
 document.getElementById("exportIcon").onclick = function() {
